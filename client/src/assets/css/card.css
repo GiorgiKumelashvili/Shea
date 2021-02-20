@@ -1,0 +1,19 @@
+.card-custom {
+    width: 16rem;
+    background: #ebecf0;
+    margin-left: 0.5rem;
+}
+
+.icon-hover:hover {
+    transition: 0.4s;
+    background-color: rgba(108, 117, 125, 0.2);
+}
+
+.icon-hover {
+    transition: 0.7s;
+}
+
+.ghost {
+    opacity: 0.3;
+    background: #f2e6ff;
+}

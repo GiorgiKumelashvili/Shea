@@ -1,0 +1,39 @@
+:root {
+    --image: url('https://www.dreampirates.in/wallpaper/vector/img/25-12-2019-5238-deer-art-vector.jpg');
+    --main-gradient: linear-gradient(315deg, #fdffba 0%, #e5d4ff 74%);
+}
+
+/* Imports */
+@import './css/card.css';
+@import './css/StashSpace.css'; /* For Stash */
+@import './css/Importants.css'; /* Don't Delete ! */
+
+html,
+body {
+    overflow-y: hidden;
+    white-space: nowrap;
+    position: relative;
+
+    height: 100%;
+    background-image: var(--image);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+/* Globals */
+.pointer {
+    cursor: pointer !important;
+}
+
+.mover {
+    cursor: move !important;
+}
+
+.outline-none {
+    outline: none !important;
+}
+
+.force-wrap {
+    white-space: normal !important;
+}

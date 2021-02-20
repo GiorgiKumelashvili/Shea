@@ -1,0 +1,365 @@
+<template>
+    <draggable
+        class="whole-shea-horizontal-scroll mt-2 p-0"
+        itemKey="name"
+        tag="transition-group"
+        v-model="MainData"
+        v-bind="Const.CardDragOption"
+        :key="draggableKey"
+        :component-data="{ tag: 'div', type: 'transition' }"
+        @end="changeMain"
+    >
+        <template #item="{ element }">
+            <MainCard
+                :elementProp="element"
+                @openItemModalEvent="openItemModal($event)"
+                @openingAddNewItemModalEvt="saveCardId($event)"
+            />
+        </template>
+    </draggable>
+
+    <!-- [Button] of adding card  -->
+    <button
+        class="btn rounded-circle custom-add-icon"
+        data-bs-toggle="modal"
+        data-bs-target="#OpenAddCardModal"
+    >
+        <img :src="Const.svgs.plus" />
+    </button>
+
+    <!-- [Modal] of Add New Card -->
+    <div
+        class="modal fade"
+        id="OpenAddCardModal"
+        tabindex="-1"
+        aria-labelledby="OpenAddCardModal"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-1">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="OpenAddCardModal">
+                        Modal title
+                    </h5>
+                    <img
+                        :src="Const.svgs.xCircle"
+                        class="pointer p-2"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    />
+                </div>
+                <div class="modal-body py-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Card Name"
+                        aria-label="Card Name"
+                        v-model="cardName"
+                    />
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
+                        Discard
+                    </button>
+                    <button
+                        type="button"
+                        :class="{ disabled: !cardName }"
+                        class="btn btn-primary btn-sm"
+                        data-bs-dismiss="modal"
+                        @click="addNewCard()"
+                    >
+                        Add New Card
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [Modal] Add New Item -->
+    <div
+        class="modal fade"
+        id="AddNewItemModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content rounded-1">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <img
+                        :src="Const.svgs.xCircle"
+                        class="pointer p-2"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    />
+                </div>
+                <div class="modal-body py-0">
+                    <div class="py-2 d-flex flex-column">
+                        <label for="exampleFormName" class="form-label ps-1 pb-2">
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            id="exampleFormName"
+                            class="form-control"
+                            placeholder="Name"
+                            aria-label="Name"
+                            v-model="newItemForm.name"
+                        />
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <label for="exampleFormUrl" class="form-label ps-1">
+                            Link
+                            <img :src="Const.svgs.Link" class="pointer py-2 ps-1" />
+                        </label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="basic-url"
+                            placeholder="https: //example.com"
+                            v-model="newItemForm.url"
+                        />
+                    </div>
+
+                    <div class="py-2 d-flex flex-column">
+                        <label for="exampleFormTextarea" class="form-label ps-1 py-2">
+                            Description
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="exampleFormTextarea"
+                            rows="4"
+                            v-model="newItemForm.description"
+                        />
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
+                        Discard
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        data-bs-dismiss="modal"
+                        @click="addNewItemToCardInStore(cardId)"
+                    >
+                        Add New Item
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [Modal] of item -->
+    <div
+        class="modal fade force-wrap"
+        id="OpenCardModal"
+        tabindex="-1"
+        aria-labelledby="OpenCardModal"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content rounded-1">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="OpenCardModal">
+                        {{ itemData?.card?.name }}
+                    </h5>
+                    <img
+                        :src="Const.svgs.upperRight"
+                        class="icon-hover p-2 rounded pointer"
+                        id="dropdownMenuOffset"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    />
+
+                    <ul
+                        class="dropdown-menu dropdown-menu-dark pointer"
+                        aria-labelledby="dropdownMenuOffset"
+                    >
+                        <li>
+                            <p
+                                class="dropdown-item m-0"
+                                @click="
+                                    deleteItem({
+                                        Parent: itemData.card.id,
+                                        Child: itemData.item.id
+                                    })
+                                "
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                Delete
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body">
+                    <h4
+                        class="text-center font-monospace m-0 py-3"
+                        v-if="itemData.item && itemData.item.hasOwnProperty('name')"
+                    >
+                        {{ itemData.item.name[0].toUpperCase() + itemData.item.name.slice(1) }}
+                    </h4>
+
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div
+                            class="accordion-item"
+                            v-if="itemData.item && itemData.item.hasOwnProperty('url')"
+                        >
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button
+                                    class="accordion-button px-0 border-0 px-2 shadow-none"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseOne"
+                                >
+                                    Url
+                                    <img :src="Const.svgs.Link_Light" class="pointer ps-2" />
+                                </button>
+                            </h2>
+                            <div
+                                id="flush-collapseOne"
+                                class="accordion-collapse border-0 collapse multi-collapse show"
+                            >
+                                <div
+                                    class="accordion-body d-flex align-items-center justify-content-between"
+                                >
+                                    {{ itemData.item.url }}
+                                    <div>
+                                        <button
+                                            class="btn btn-sm btn-primary border-0 p-0 px-1 outline-none shadow-none"
+                                            style="background:var(--bs-teal)"
+                                        >
+                                            Change
+                                        </button>
+                                        <button
+                                            class="btn btn-sm btn-secondaryborder-0 text-light ms-2 p-0 px-1 outline-none shadow-none"
+                                            style="background:var(--bs-indigo)"
+                                        >
+                                            Redirect
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="accordion-item"
+                            v-if="itemData.item && itemData.item.hasOwnProperty('description')"
+                        >
+                            <h2 class="accordion-header" id="flush-headingTwo">
+                                <button
+                                    class="accordion-button collapsed px-0 border-0 px-2 shadow-none"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseTwo"
+                                    aria-expanded="false"
+                                    aria-controls="flush-collapseTwo"
+                                >
+                                    Description
+                                </button>
+                            </h2>
+                            <div
+                                id="flush-collapseTwo"
+                                class="accordion-collapse border-0 collapse multi-collapse"
+                            >
+                                <div class="accordion-body">
+                                    {{ itemData.item.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="text" @keyup.enter="log" id="xxx" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import MainCard from '@/components/Stash/MainCard.vue';
+import Const from '@/libs/Const';
+import draggable from 'vuedraggable';
+
+import addItem from '@/components/Stash/addItem';
+import showItem from '@/components/Stash/showItem';
+import addCard from '@/components/Stash/addCard';
+
+export default {
+    name: 'two-lists',
+    components: {
+        draggable,
+        MainCard
+    },
+    setup() {
+        const store = useStore();
+        const MainData = ref(store.getters.MainData);
+        const draggableKey = ref('some random key');
+        const cardId = ref(null);
+
+        const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
+        const { itemData, openItemModal } = showItem; // Show item modal
+        const { cardName, addNewCard } = addCard; // Add new card
+
+        // Delete certain item
+        const deleteItem = obj => store.dispatch('deleteItem', obj);
+
+        // Update card index after single Drag
+        const changeMain = ({ oldIndex, newIndex }) => {
+            store.dispatch('updateMainCardPosition', { oldIndex, newIndex });
+        };
+
+        // Event Listenings
+        const saveCardId = id => (cardId.value = id);
+
+        // Refresh MainData View
+        watch(store.getters.MainData, () => (draggableKey.value = Math.random() * 10));
+
+        /*TODO 
+            implement input enter like this in item modal as well
+            also implement focus on force on click on input !!!
+        */
+        function log() {
+            console.log('hi');
+            const el = document.getElementById('xxx').blur();
+        }
+
+        return {
+            log,
+            MainData,
+            cardName,
+            Const,
+            deleteItem,
+            addNewCard,
+            draggableKey,
+            itemData,
+            openItemModal,
+            changeMain,
+            cardId,
+            newItemForm,
+            saveCardId,
+            addNewItemToCardInStore
+        };
+    }
+};
+</script>
+
+<style scoped>
+.custom-add-icon {
+    position: fixed;
+    bottom: 25px;
+    right: 40px;
+
+    width: 3rem;
+    height: 3rem;
+
+    background-image: var(--main-gradient);
+}
+</style>
