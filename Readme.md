@@ -6,6 +6,7 @@ Application uses Technologies Like :
 * Vue
     * [axios](https://github.com/axios/axios)
     * [vuedraggable](https://github.com/SortableJS/vue.draggable.next)
+    * [Eslint](https://eslint.vuejs.org/)
 * Laravel
     * [ui](https://github.com/laravel/ui)
     * [sanctum](https://laravel.com/docs/8.x/sanctum)
