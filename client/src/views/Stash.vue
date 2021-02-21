@@ -14,7 +14,7 @@
             <MainCard
                 :elementProp="element"
                 @openItemModalEvent="openItemModal($event)"
-                @openingAddNewItemModalEvt="saveCardId($event)"
+                @addNewItemModalEvt="saveCardId($event)"
             />
         </template>
     </draggable>
@@ -280,20 +280,20 @@
             </div>
         </div>
     </div>
-
-    <!-- <input type="text" @keyup.enter="log" id="xxx" /> -->
 </template>
 
 <script>
-import { ref, watch, computed } from 'vue';
-import { useStore } from 'vuex';
+import addItem from '@/components/Stash/addItem';
+import showItem from '@/components/Stash/showItem';
+import addCard from '@/components/Stash/addCard';
+import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
+
 import MainCard from '@/components/Stash/MainCard.vue';
 import Const from '@/libs/Const';
 import draggable from 'vuedraggable';
 
-import addItem from '@/components/Stash/addItem';
-import showItem from '@/components/Stash/showItem';
-import addCard from '@/components/Stash/addCard';
+import { useStore } from 'vuex';
+import { ref, computed } from 'vue';
 
 export default {
     name: 'two-lists',
@@ -304,8 +304,10 @@ export default {
     setup() {
         const store = useStore();
 
+        //! Get Main Data
+        store.dispatch('getMainData');
+
         // Main Data
-        const MainData = ref(store.getters.MainData);
         const MainDataShow = computed({
             get: () => store.getters.MainData,
             set: () => null
@@ -315,6 +317,7 @@ export default {
         const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
         const { itemData, openItemModal } = showItem; // Show item modal
         const { cardName, addNewCard } = addCard; // Add new card
+        const { draggableKey } = wholeCardRefresh; // Add new card
 
         // Delete certain item
         const deleteItem = obj => store.dispatch('deleteItem', obj);
@@ -328,23 +331,8 @@ export default {
         const cardId = ref(null);
         const saveCardId = id => (cardId.value = id);
 
-        // Refresh MainData View
-        const draggableKey = ref('some random key');
-        watch(store.state.MainData, () => (draggableKey.value = Math.random() * 10));
-
-        /*TODO
-            implement input enter like this in item modal as well
-            also implement focus on force on click on input !!!
-        */
-        function log() {
-            console.log('hi');
-            const el = document.getElementById('xxx').blur();
-        }
-
         return {
-            log,
             store,
-            MainData,
             MainDataShow,
             cardName,
             Const,

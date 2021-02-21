@@ -5,7 +5,7 @@
             <div
                 :class="Const.betweenClass"
                 class="px-2 pt-2"
-                @click="updateCardState.showCardNameInput = true"
+                @click="showInput(final.id)"
                 v-if="!updateCardState.showCardNameInput"
             >
                 <h5 class="card-title m-0 flex-grow-1 text-truncate">
@@ -34,23 +34,19 @@
                 </div>
             </div>
 
-            <div class="d-flex p-2" v-else>
+            <!-- {{ updateCardState.showCardNameInput }} -->
+            <!-- <h1 v-show="false">ddd</h1> -->
+
+            <div class="d-flex p-2" :class="{ 'd-none': !updateCardState.showCardNameInput }">
                 <input
                     class="form-control py-1 px-2"
+                    :id="'name-input-' + final.id"
                     v-model="final.name"
                     type="text"
                     placeholder="Name"
+                    @keyup.enter="updateCardName(final.id)"
+                    @blur="closeInput()"
                 />
-                <button
-                    :class="[
-                        !final.name ? 'disabled' : '',
-                        updateCardState.equalsOld ? 'btn-danger' : 'btn-primary'
-                    ]"
-                    class="btn btn-sm"
-                    @click="updateCardName(final.id)"
-                >
-                    {{ updateCardState.equalsOld ? 'close' : 'update' }}
-                </button>
             </div>
 
             <!-- Middle half -->
@@ -75,7 +71,7 @@
                         <img
                             :src="Const.svgs.Link"
                             class="p-1 rounded cust"
-                            @click="goToLink({})"
+                            @click="goToLink(element.url)"
                         />
                     </div>
                 </template>
@@ -97,9 +93,10 @@
 
 <script>
 import draggable from 'vuedraggable';
-import { ref, watch, computed, reactive } from 'vue';
-import { useStore } from 'vuex';
 import Const from '@/libs/Const';
+
+import { useStore } from 'vuex';
+import { ref, watch, computed, reactive } from 'vue';
 
 export default {
     name: 'two-lists',
@@ -118,29 +115,16 @@ export default {
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
-        const emitAddNewItemModal = id => ctx.emit('openingAddNewItemModalEvt', id);
+        const emitAddNewItemModal = id => ctx.emit('addNewItemModalEvt', id);
 
-        const goToLink = obj => {
-            console.log(obj);
-        };
+        // Go to link
+        const goToLink = url => window.open(url);
 
-        // Update Card
         const updateCardState = reactive({
             showCardNameInput: false,
             temp: final.value.name,
             equalsOld: computed(() => final.value.name === updateCardState.temp)
         });
-
-        const updateCardName = id => {
-            updateCardState.showCardNameInput = false; // remove input after updating
-
-            // Don't execute if old value is still present
-            if (updateCardState.equalsOld.value) {
-                return;
-            }
-
-            store.dispatch('updateCardName', { newCardName: final.value.name, id });
-        };
 
         // Delete card
         const deleteCard = id => store.dispatch('deleteCardByIndex', id);
@@ -153,7 +137,31 @@ export default {
             store.dispatch('updateMain', { newChildren, index });
         });
 
+        // Update Card Name
+        const updateCardName = id => {
+            updateCardState.showCardNameInput = false; // remove input after updating
+
+            // Don't execute if old value is still present
+            if (updateCardState.equalsOld.value) {
+                return;
+            }
+
+            store.dispatch('updateCardName', { newCardName: final.value.name, id });
+        };
+
+        const showInput = id => {
+            updateCardState.showCardNameInput = true;
+            const el = document.getElementById('name-input-' + id);
+            setTimeout(() => el.focus(), 0);
+        };
+
+        const closeInput = () => {
+            updateCardState.showCardNameInput = false;
+        };
+
         return {
+            closeInput,
+            showInput,
             Const,
             deleteCard,
             emitOpenItemModalEvent,

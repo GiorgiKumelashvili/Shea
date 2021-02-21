@@ -1,3 +1,4 @@
+import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 import Back from '@/libs/Back';
 import Func from '@/libs/Func';
 import { createStore } from 'vuex';
@@ -81,30 +82,32 @@ export default createStore({
             state.MainData[index].child = newChildren;
         },
 
+        addNewCard(state, payload) {
+            state.MainData.unshift(payload);
+        },
+
         updateMainCardPosition(state, { oldIndex, newIndex, card }) {
             state.MainData.splice(oldIndex, 1);
             state.MainData.splice(newIndex, 0, card);
-        },
-
-        addNewItemToCardChild(state, { index, data }) {
-            state.MainData[index].child.push(data);
-        },
-
-        deleteCard(state, payload) {
-            state.MainData.splice(payload, 1);
-        },
-
-        addNewCard(state, payload) {
-            state.MainData.unshift(payload);
         },
 
         updateCardName(state, { newCardName, index }) {
             state.MainData[index].name = newCardName;
         },
 
+        deleteCard(state, payload) {
+            state.MainData.splice(payload, 1);
+        },
+
+        createNewItem(state, { index, data }) {
+            state.MainData[index].child.push(data);
+            wholeCardRefresh.refresh();
+        },
+
         deleteItem(state, { cardIndex, itemIndex }) {
             state.MainData[cardIndex].child.splice(itemIndex, 1);
             console.log({ cardIndex, itemIndex });
+            wholeCardRefresh.refresh();
         }
     },
 
@@ -135,7 +138,7 @@ export default createStore({
 
         addNewItemToCard(ctx, { cardLocationId, state }) {
             const index = ctx.getters.findCardIndexById(cardLocationId);
-            ctx.commit('addNewItemToCardChild', { index, data: state });
+            ctx.commit('createNewItem', { index, data: state });
         },
 
         deleteCardByIndex(ctx, payload) {
