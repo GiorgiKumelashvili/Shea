@@ -1,6 +1,6 @@
 export default {
     svgs: {
-        upperRight: require('@/assets/svgs/bi-three-dots.svg'),
+        settings: require('@/assets/svgs/bi-setting.svg'),
         itemPen: require('@/assets/svgs/bi-pen.svg'),
         plus: require('@/assets/svgs/bi-plus.svg'),
         xCircle: require('@/assets/svgs/bi-fullscreen-exit.svg'),

@@ -1,10 +1,12 @@
+import Back from '@/libs/Back';
 import Func from '@/libs/Func';
 import { createStore } from 'vuex';
 
 export default createStore({
     state: {
         authenticated: false,
-        MainData: [
+        MainData: [],
+        MainDatax: [
             {
                 name: 'Big list 1',
                 id: 101,
@@ -71,6 +73,10 @@ export default createStore({
             state.authenticated = payload;
         },
 
+        setMain(state, payload) {
+            state.MainData = payload;
+        },
+
         updateMain(state, { index, newChildren }) {
             state.MainData[index].child = newChildren;
         },
@@ -105,6 +111,17 @@ export default createStore({
     actions: {
         authenticate(ctx, payload) {
             ctx.commit('setAuthenticated', { bool: payload });
+        },
+
+        async getMainData(ctx) {
+            const data = await Back.Service('/t');
+
+            if (data.response && data.response.statusText) {
+                console.log(data.response.statusText);
+                return;
+            }
+
+            ctx.commit('setMain', data.data);
         },
 
         updateMain(ctx, payload) {

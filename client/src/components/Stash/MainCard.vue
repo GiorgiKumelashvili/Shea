@@ -8,11 +8,13 @@
                 @click="updateCardState.showCardNameInput = true"
                 v-if="!updateCardState.showCardNameInput"
             >
-                <h5 class="card-title m-0 flex-grow-1">{{ final.name }}</h5>
+                <h5 class="card-title m-0 flex-grow-1 text-truncate">
+                    {{ final.name }}
+                </h5>
 
                 <div class="dropdown" style="z-index:900">
                     <img
-                        :src="Const.svgs.upperRight"
+                        :src="Const.svgs.settings"
                         class="icon-hover p-2 rounded"
                         id="dropdownMenuOffset"
                         data-bs-toggle="dropdown"
@@ -62,7 +64,7 @@
                 <template #item="{ element }">
                     <div class="list-group-item mb-2 p-2">
                         <p
-                            class="m-0 force-wrap"
+                            class="m-0"
                             @click="emitOpenItemModalEvent({ Parent: final.id, Child: element.id })"
                             data-bs-toggle="modal"
                             data-bs-target="#OpenCardModal"

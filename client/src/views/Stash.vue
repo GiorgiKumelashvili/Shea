@@ -3,7 +3,8 @@
         class="whole-shea-horizontal-scroll mt-2 p-0"
         itemKey="name"
         tag="transition-group"
-        v-model="MainData"
+        v-model="MainDataShow"
+        v-if="MainDataShow.length"
         v-bind="Const.CardDragOption"
         :key="draggableKey"
         :component-data="{ tag: 'div', type: 'transition' }"
@@ -17,6 +18,11 @@
             />
         </template>
     </draggable>
+
+    <!-- [Message] Erro -->
+    <div class="card mx-auto mt-5 p-5" v-else style="width:30rem">
+        <h1 class="text-center">Error occured</h1>
+    </div>
 
     <!-- [Button] of adding card  -->
     <button
@@ -163,11 +169,11 @@
         <div class="modal-dialog">
             <div class="modal-content rounded-1">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="OpenCardModal">
+                    <h5 class="modal-title text-truncate" id="OpenCardModal">
                         {{ itemData?.card?.name }}
                     </h5>
                     <img
-                        :src="Const.svgs.upperRight"
+                        :src="Const.svgs.settings"
                         class="icon-hover p-2 rounded pointer"
                         id="dropdownMenuOffset"
                         data-bs-toggle="dropdown"
@@ -226,23 +232,20 @@
                                 class="accordion-collapse border-0 collapse multi-collapse show"
                             >
                                 <div
-                                    class="accordion-body d-flex align-items-center justify-content-between"
+                                    class="accordion-body d-flex align-items-center justify-content-between pointer"
                                 >
-                                    {{ itemData.item.url }}
-                                    <div>
-                                        <button
-                                            class="btn btn-sm btn-primary border-0 p-0 px-1 outline-none shadow-none"
-                                            style="background:var(--bs-teal)"
-                                        >
-                                            Change
-                                        </button>
-                                        <button
-                                            class="btn btn-sm btn-secondaryborder-0 text-light ms-2 p-0 px-1 outline-none shadow-none"
-                                            style="background:var(--bs-indigo)"
-                                        >
-                                            Redirect
-                                        </button>
-                                    </div>
+                                    <!-- Url -->
+                                    <p class="m-0 text-truncate">
+                                        {{ itemData.item.url }}
+                                    </p>
+
+                                    <!-- Button -->
+                                    <button
+                                        class="btn btn-sm btn-secondaryborder-0 text-light ms-2 p-0 px-1 outline-none shadow-none"
+                                        style="background:var(--bs-indigo)"
+                                    >
+                                        Redirect
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -267,22 +270,22 @@
                                 id="flush-collapseTwo"
                                 class="accordion-collapse border-0 collapse multi-collapse"
                             >
-                                <div class="accordion-body">
+                                <div class="accordion-body force-wrap">
                                     {{ itemData.item.description }}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <input type="text" @keyup.enter="log" id="xxx" />
             </div>
         </div>
     </div>
+
+    <!-- <input type="text" @keyup.enter="log" id="xxx" /> -->
 </template>
 
 <script>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import MainCard from '@/components/Stash/MainCard.vue';
 import Const from '@/libs/Const';
@@ -300,10 +303,15 @@ export default {
     },
     setup() {
         const store = useStore();
-        const MainData = ref(store.getters.MainData);
-        const draggableKey = ref('some random key');
-        const cardId = ref(null);
 
+        // Main Data
+        const MainData = ref(store.getters.MainData);
+        const MainDataShow = computed({
+            get: () => store.getters.MainData,
+            set: () => null
+        });
+
+        // Mixin
         const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
         const { itemData, openItemModal } = showItem; // Show item modal
         const { cardName, addNewCard } = addCard; // Add new card
@@ -317,12 +325,14 @@ export default {
         };
 
         // Event Listenings
+        const cardId = ref(null);
         const saveCardId = id => (cardId.value = id);
 
         // Refresh MainData View
-        watch(store.getters.MainData, () => (draggableKey.value = Math.random() * 10));
+        const draggableKey = ref('some random key');
+        watch(store.state.MainData, () => (draggableKey.value = Math.random() * 10));
 
-        /*TODO 
+        /*TODO
             implement input enter like this in item modal as well
             also implement focus on force on click on input !!!
         */
@@ -333,7 +343,9 @@ export default {
 
         return {
             log,
+            store,
             MainData,
+            MainDataShow,
             cardName,
             Const,
             deleteItem,

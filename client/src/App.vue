@@ -18,13 +18,14 @@ export default {
         const store = useStore();
         const isAuthenticated = ref(store.getters.isAuthenticated);
 
-        // Set in store
+        //! Set in store
         isAuthenticated.value = localStorage.getItem('isAuthenticated') ?? false;
         store.commit('setAuthenticated', isAuthenticated.value);
 
-        return {
-            isAuthenticated
-        };
+        //! Get Main Data
+        store.dispatch('getMainData');
+
+        return { isAuthenticated };
     }
 };
 </script>
