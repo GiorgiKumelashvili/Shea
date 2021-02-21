@@ -13,6 +13,7 @@ class ItemFactory extends Factory {
     public function definition(): array {
         return [
             'name' => $this->faker->name,
+            'url' => $this->faker->url,
             'color' => $this->faker->hexColor,
             'description' => $this->faker->randomElement([Str::random('100'), null]),
             'card_id' => Card::all('id')->random(1)->first()->id

@@ -13,6 +13,7 @@ class CreateItemsTable extends Migration {
             $table->unsignedBigInteger('card_id');
             $table->string('color', 30)->default('#FFFFFF'); // color white
             $table->longText('description')->nullable();
+            $table->string('url', 100);
             $table->timestamps();
 
             $table->foreign('card_id')->references('id')->on('cards');

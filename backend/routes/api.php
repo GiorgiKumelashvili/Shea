@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| is assigned the "api" middleware group.
 |
 */
 
@@ -25,7 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/logout', [logoutController::class, 'logout']);
+
 });
 
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
+
+Route::post('/t', [\App\Http\Controllers\CardController::class, 'getAll']);
 
