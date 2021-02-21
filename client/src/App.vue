@@ -22,9 +22,6 @@ export default {
         isAuthenticated.value = localStorage.getItem('isAuthenticated') ?? false;
         store.commit('setAuthenticated', isAuthenticated.value);
 
-        //! Get Main Data
-        store.dispatch('getMainData');
-
         return { isAuthenticated };
     }
 };
