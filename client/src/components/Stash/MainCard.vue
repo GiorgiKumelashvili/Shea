@@ -134,7 +134,7 @@ export default {
             const index = store.getters.findCardIndexById(final.value.id);
             const newChildren = JSON.parse(JSON.stringify(newVal));
 
-            store.dispatch('updateMain', { newChildren, index });
+            store.dispatch('updateItemPosition', { newChildren, index });
         });
 
         // Update Card Name

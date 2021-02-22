@@ -1,4 +1,5 @@
 <template>
+    {{ store.state.MainData }}
     <draggable
         class="whole-shea-horizontal-scroll mt-2 p-0"
         itemKey="name"
@@ -324,7 +325,7 @@ export default {
 
         // Update card index after single Drag
         const changeMain = ({ oldIndex, newIndex }) => {
-            store.dispatch('updateMainCardPosition', { oldIndex, newIndex });
+            store.dispatch('updateCardPosition', { oldIndex, newIndex });
         };
 
         // Event Listenings

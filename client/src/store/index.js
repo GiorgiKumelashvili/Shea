@@ -78,15 +78,20 @@ export default createStore({
             state.MainData = payload;
         },
 
-        updateMain(state, { index, newChildren }) {
-            state.MainData[index].child = newChildren;
-        },
+        /**
+         * [ Card Actions ]
+         *
+         * @method addNewCard
+         * @method updateCardPosition
+         * @method updateCardName
+         * @method deleteCard
+         */
 
         addNewCard(state, payload) {
             state.MainData.unshift(payload);
         },
 
-        updateMainCardPosition(state, { oldIndex, newIndex, card }) {
+        updateCardPosition(state, { oldIndex, newIndex, card }) {
             state.MainData.splice(oldIndex, 1);
             state.MainData.splice(newIndex, 0, card);
         },
@@ -99,9 +104,21 @@ export default createStore({
             state.MainData.splice(payload, 1);
         },
 
+        /**
+         * [ Item Actions ]
+         *
+         * @method createNewItem
+         * @method updateItemPosition
+         * @method deleteItem
+         */
+
         createNewItem(state, { index, data }) {
             state.MainData[index].child.push(data);
             wholeCardRefresh.refresh();
+        },
+
+        updateItemPosition(state, { index, newChildren }) {
+            state.MainData[index].child = newChildren;
         },
 
         deleteItem(state, { cardIndex, itemIndex }) {
@@ -127,24 +144,38 @@ export default createStore({
             ctx.commit('setMain', data.data);
         },
 
-        updateMain(ctx, payload) {
-            ctx.commit('updateMain', payload);
-        },
-
-        updateMainCardPosition(ctx, { oldIndex, newIndex }) {
-            const card = ctx.state.MainData[oldIndex];
-            ctx.commit('updateMainCardPosition', { oldIndex, newIndex, card });
-        },
+        /**
+         * [ Item Mutations ]
+         *
+         * @method addNewItemToCard
+         * @method updateItemPosition
+         * @method deleteItem
+         */
 
         addNewItemToCard(ctx, { cardLocationId, state }) {
             const index = ctx.getters.findCardIndexById(cardLocationId);
             ctx.commit('createNewItem', { index, data: state });
         },
 
-        deleteCardByIndex(ctx, payload) {
-            const index = ctx.getters.findCardIndexById(payload);
-            ctx.commit('deleteCard', index);
+        updateItemPosition(ctx, payload) {
+            ctx.commit('updateItemPosition', payload);
         },
+
+        deleteItem(ctx, { Parent, Child }) {
+            const { index: cardIndex, card } = ctx.getters.findCardBoth(Parent);
+            const itemIndex = card.child.findIndex(item => item.id === Child);
+
+            ctx.commit('deleteItem', { cardIndex, itemIndex });
+        },
+
+        /**
+         * [ Card Mutations ]
+         *
+         * @method createNewCardAndAdd
+         * @method updateCardPosition
+         * @method updateCardName
+         * @method deleteCardByIndex
+         */
 
         createNewCardAndAdd(ctx, payload) {
             ctx.commit('addNewCard', {
@@ -154,16 +185,19 @@ export default createStore({
             });
         },
 
+        updateCardPosition(ctx, { oldIndex, newIndex }) {
+            const card = ctx.state.MainData[oldIndex];
+            ctx.commit('updateCardPosition', { oldIndex, newIndex, card });
+        },
+
         updateCardName(ctx, { newCardName, id }) {
             const index = ctx.getters.findCardIndexById(id);
             ctx.commit('updateCardName', { newCardName, index });
         },
 
-        deleteItem(ctx, { Parent, Child }) {
-            const { index: cardIndex, card } = ctx.getters.findCardBoth(Parent);
-            const itemIndex = card.child.findIndex(item => item.id === Child);
-
-            ctx.commit('deleteItem', { cardIndex, itemIndex });
+        deleteCardByIndex(ctx, payload) {
+            const index = ctx.getters.findCardIndexById(payload);
+            ctx.commit('deleteCard', index);
         }
     },
 
