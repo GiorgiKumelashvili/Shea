@@ -1,5 +1,4 @@
 <template>
-    {{ store.state.MainData }}
     <draggable
         class="whole-shea-horizontal-scroll mt-2 p-0"
         itemKey="name"

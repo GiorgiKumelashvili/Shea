@@ -32,3 +32,7 @@ Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
 Route::post('/t', [\App\Http\Controllers\CardController::class, 'getAll']);
 
+// testings
+Route::get('/test', [\App\Http\Controllers\CardController::class, 'test']);
+Route::post('/updateCardIndex', [\App\Http\Controllers\CardController::class, 't']);
+

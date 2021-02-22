@@ -94,6 +94,9 @@ export default createStore({
         updateCardPosition(state, { oldIndex, newIndex, card }) {
             state.MainData.splice(oldIndex, 1);
             state.MainData.splice(newIndex, 0, card);
+
+            // Update card index in Backend
+            Back.Service('/updateCardIndex', { oldIndex, newIndex, card });
         },
 
         updateCardName(state, { newCardName, index }) {
@@ -118,6 +121,9 @@ export default createStore({
         },
 
         updateItemPosition(state, { index, newChildren }) {
+            const id = state.MainData[index].id;
+            console.log(id);
+
             state.MainData[index].child = newChildren;
         },
 
@@ -135,6 +141,7 @@ export default createStore({
 
         async getMainData(ctx) {
             const data = await Back.Service('/t');
+            console.log(data);
 
             if (data.response && data.response.statusText) {
                 console.log(data.response.statusText);

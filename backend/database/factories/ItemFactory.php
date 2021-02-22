@@ -16,7 +16,8 @@ class ItemFactory extends Factory {
             'url' => $this->faker->url,
             'color' => $this->faker->hexColor,
             'description' => $this->faker->randomElement([Str::random('100'), null]),
-            'card_id' => Card::all('id')->random(1)->first()->id
+            'card_id' => Card::all('id')->random(1)->first()->id,
+            'index' => 1
         ];
     }
 }

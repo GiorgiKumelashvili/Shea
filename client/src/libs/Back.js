@@ -10,9 +10,9 @@ class Back {
      * @param {String} name
      * @description connnects this method to backend
      */
-    static async Service(url) {
+    static Service(url, obj = null) {
         return back
-            .post(url)
+            .post(url, obj)
             .then(res => res.data)
             .catch(err => err);
     }

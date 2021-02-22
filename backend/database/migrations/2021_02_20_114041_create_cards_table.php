@@ -11,6 +11,7 @@ class CreateCardsTable extends Migration {
             $table->string('name', 100);
             $table->unsignedTinyInteger('location');
             $table->string('color', 30)->default('#EBECF0'); // color grey
+            $table->integer('index');
             $table->timestamps();
         });
     }
