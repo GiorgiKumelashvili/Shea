@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -23,14 +24,14 @@ class CardController extends Controller {
         return $this->getAll();
     }
 
-    public function t(Request $request) {
+    public function updateCardIndex(Request $request): JsonResponse {
         $data = $request->validate([
             'oldIndex' => 'required',
             'newIndex' => 'required',
-            'card' => 'required'
+            'cardId' => 'required'
         ]);
 
-        $cardId = $data['card']['id'];
+        $cardId = $data['cardId'];
         $newIndex = $data['newIndex'];
         $oldIndex = $data['oldIndex'];
 

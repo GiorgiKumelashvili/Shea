@@ -79,7 +79,7 @@ export default createStore({
         },
 
         /**
-         * [ Card Actions ]
+         * [ Card Mutations ]
          *
          * @method addNewCard
          * @method updateCardPosition
@@ -96,7 +96,7 @@ export default createStore({
             state.MainData.splice(newIndex, 0, card);
 
             // Update card index in Backend
-            Back.Service('/updateCardIndex', { oldIndex, newIndex, card });
+            Back.Service('/updateCardIndex', { oldIndex, newIndex, cardId: card.id });
         },
 
         updateCardName(state, { newCardName, index }) {
@@ -108,7 +108,7 @@ export default createStore({
         },
 
         /**
-         * [ Item Actions ]
+         * [ Item Mutations ]
          *
          * @method createNewItem
          * @method updateItemPosition
@@ -121,9 +121,6 @@ export default createStore({
         },
 
         updateItemPosition(state, { index, newChildren }) {
-            const id = state.MainData[index].id;
-            console.log(id);
-
             state.MainData[index].child = newChildren;
         },
 
@@ -152,7 +149,7 @@ export default createStore({
         },
 
         /**
-         * [ Item Mutations ]
+         * [ Item Actions ]
          *
          * @method addNewItemToCard
          * @method updateItemPosition
@@ -176,7 +173,7 @@ export default createStore({
         },
 
         /**
-         * [ Card Mutations ]
+         * [ Card Actions ]
          *
          * @method createNewCardAndAdd
          * @method updateCardPosition
