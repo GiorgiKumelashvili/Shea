@@ -37,8 +37,9 @@ Route::post('/tokens/create', [TokenController::class, 'createToken']);
 Route::post('/t', [CardController::class, 'getAll']);
 Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 
-Route::post('/updateItemIndexOnAdd', [ItemController::class, 'updateItemIndexOnAdd']);
-Route::post('/updateItemIndexOnRemove', [ItemController::class, 'updateItemIndexOnRemove']);
+Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
+Route::post('/updateItemIndexOnDragRemove', [ItemController::class, 'updateItemIndexOnDragRemove']);
+Route::post('/updateIndexOnInsideDragUpdate', [ItemController::class, 'updateIndexOnInsideDragUpdate']);
 
 // testings
 Route::get('/test', [CardController::class, 'test']);
