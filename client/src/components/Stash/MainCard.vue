@@ -185,7 +185,18 @@ export default {
             const { newIndex } = e;
 
             console.log('added ==> ' + cardId);
-            console.log(newIndex);
+
+            // console.log({
+            //     cardId: final.value.id,
+            //     itemId: final.value.child[newIndex].id,
+            //     newIndex
+            // });
+
+            Back.Service('/updateItemIndexOnDragAdd', {
+                cardId: final.value.id,
+                itemId: final.value.child[newIndex].id,
+                newIndex
+            });
         };
 
         const removeItemFromOldCard = e => {
@@ -195,7 +206,12 @@ export default {
             const { oldIndex } = e;
 
             console.log('removed ==> ' + cardId);
-            console.log(oldIndex);
+            // console.log(oldIndex);
+
+            Back.Service('/updateItemIndexOnDragRemove', {
+                cardId: final.value.id,
+                oldIndex
+            });
         };
 
         const moveItemInside = e => {

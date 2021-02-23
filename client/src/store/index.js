@@ -134,8 +134,7 @@ export default createStore({
         },
 
         async getMainData(ctx) {
-            const data = await Back.Service('/t');
-            console.log(data);
+            const data = await Back.Service('/getMainData');
 
             if (data.response && data.response.statusText) {
                 console.log(data.response.statusText);
