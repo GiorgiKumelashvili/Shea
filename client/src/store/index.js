@@ -94,9 +94,6 @@ export default createStore({
         updateCardPosition(state, { oldIndex, newIndex, card }) {
             state.MainData.splice(oldIndex, 1);
             state.MainData.splice(newIndex, 0, card);
-
-            // Update card index in Backend
-            Back.Service('/updateCardIndex', { oldIndex, newIndex, cardId: card.id });
         },
 
         updateCardName(state, { newCardName, index }) {
@@ -189,9 +186,8 @@ export default createStore({
             });
         },
 
-        updateCardPosition(ctx, { oldIndex, newIndex }) {
-            const card = ctx.state.MainData[oldIndex];
-            ctx.commit('updateCardPosition', { oldIndex, newIndex, card });
+        updateCardPosition(ctx, payload) {
+            ctx.commit('updateCardPosition', payload);
         },
 
         updateCardName(ctx, { newCardName, id }) {

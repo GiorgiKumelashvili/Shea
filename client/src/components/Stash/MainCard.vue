@@ -55,6 +55,7 @@
                 v-bind="Const.ItemDragOption"
                 @add="moveItemToNewCard($event)"
                 @remove="removeItemFromOldCard($event)"
+                @end="moveItemInside($event)"
             >
                 <template #item="{ element }">
                     <div class="list-group-item mb-2 p-2">
@@ -158,23 +159,55 @@ export default {
             updateCardState.showCardNameInput = false;
         };
 
-        // Item drag update on backend
-        function moveItemToNewCard(e) {
+        /**
+         * Item drag update on backend
+         *
+         * @method moveItemToNewCar
+         * @method removeItemFromOldCard
+         *
+         * @description @method moveItemInside
+         * Execution process:
+         *      I)  Remove
+         *      II) End
+         *
+         *      So this method executes only once
+         *      which is when dragged only inside
+         *      this is why we need inside var
+         *      because it also executes on
+         *      moving outside of card
+         */
+
+        const inside = ref(true);
+
+        const moveItemToNewCard = e => {
             const cardId = final.value.id;
             const { newIndex } = e;
 
             console.log('added ==> ' + cardId);
             console.log(newIndex);
-        }
-        function removeItemFromOldCard(e) {
+        };
+
+        const removeItemFromOldCard = e => {
+            inside.value = false;
+
             const cardId = final.value.id;
             const { oldIndex } = e;
 
             console.log('removed ==> ' + cardId);
             console.log(oldIndex);
-        }
+        };
+
+        const moveItemInside = e => {
+            if (inside.value === true) {
+                console.log(e);
+            }
+
+            // Make it true at last
+            inside.value = true;
+        };
 
         return {
+            moveItemInside,
             moveItemToNewCard,
             removeItemFromOldCard,
             closeInput,

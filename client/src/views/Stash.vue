@@ -289,8 +289,9 @@ import addCard from '@/components/Stash/addCard';
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 
 import MainCard from '@/components/Stash/MainCard.vue';
-import Const from '@/libs/Const';
 import draggable from 'vuedraggable';
+import Const from '@/libs/Const';
+import Back from '@/libs/Back';
 
 import { useStore } from 'vuex';
 import { ref, computed } from 'vue';
@@ -304,7 +305,7 @@ export default {
     setup() {
         const store = useStore();
 
-        //! Get Main Data
+        //! Load Main Data
         store.dispatch('getMainData');
 
         // Main Data
@@ -324,7 +325,17 @@ export default {
 
         // Update card index after single Drag
         const changeMain = ({ oldIndex, newIndex }) => {
-            store.dispatch('updateCardPosition', { oldIndex, newIndex });
+            const card = store.getters.MainData[oldIndex];
+
+            // Update card index in Backend
+            Back.Service('/updateCardIndex', {
+                cardId: card.id,
+                oldIndex,
+                newIndex
+            });
+
+            // Update card index in Store
+            store.dispatch('updateCardPosition', { oldIndex, newIndex, card });
         };
 
         // Event Listenings
