@@ -25,8 +25,8 @@ class CardController extends Controller {
 
     public function t(Request $request) {
         $data = $request->validate([
-            'oldIndex' => 'required', // 2
-            'newIndex' => 'required', // 1
+            'oldIndex' => 'required',
+            'newIndex' => 'required',
             'card' => 'required'
         ]);
 
@@ -34,34 +34,24 @@ class CardController extends Controller {
         $newIndex = $data['newIndex'];
         $oldIndex = $data['oldIndex'];
 
-        // Increment goes from left to right -->
         if ($oldIndex > $newIndex) {
-
-//            Card::where('id', $cardId)->update(['index' => $newIndex]);
-//
-//            DB::table('cards')
-//                ->where('id', '!=', $cardId)
-//                ->where('index', '>=', $newIndex)
-//                ->where('index', '<', $oldIndex)
-//                ->increment('index');
-
-            Card::where('id', $cardId)->update(['index' => $newIndex]);
-
+            // Increment goes from [newIndex, oldIndex)
             DB::table('cards')
                 ->where('index', '>=', $newIndex)
                 ->where('index', '<', $oldIndex)
                 ->increment('index');
 
+            Card::where('id', $cardId)->update(['index' => $newIndex]);
         }
-        // Decrement goes from right to left <--
         else {
+            // Decrement goes from (oldIndex, newIndex]
+            DB::table('cards')
+                ->where('index', '>', $oldIndex)
+                ->where('index', '<=', $newIndex)
+                ->decrement('index');
+
             Card::where('id', $cardId)->update(['index' => $newIndex]);
 
-            DB::table('cards')
-                ->where('id', '!=', $cardId)
-                ->where('index', '<=', $newIndex)
-                ->where('index', '>', $oldIndex)
-                ->decrement('index');
         }
 
         return response()->json(['message' => 'changed position of card and indexes']);
