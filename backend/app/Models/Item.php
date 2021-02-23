@@ -12,8 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Item extends Model {
     use HasFactory;
 
-    public const DB_NAME = "items";
-
     public function card(): BelongsTo {
         return $this->belongsTo(Card::class);
     }

@@ -34,7 +34,7 @@ Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
 
 
-Route::post('/t', [CardController::class, 'getAll']);
+Route::post('/getMainData', [CardController::class, 'getAll']);
 Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 
 Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
