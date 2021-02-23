@@ -94,6 +94,7 @@
 <script>
 import draggable from 'vuedraggable';
 import Const from '@/libs/Const';
+import Back from '@/libs/Back';
 
 import { useStore } from 'vuex';
 import { ref, watch, computed, reactive } from 'vue';
@@ -198,12 +199,19 @@ export default {
         };
 
         const moveItemInside = e => {
-            if (inside.value === true) {
-                console.log(e);
+            if (!inside.value) {
+                inside.value = true;
+                return;
             }
 
-            // Make it true at last
-            inside.value = true;
+            const { newIndex, oldIndex } = e;
+
+            Back.Service('/updateIndexOnInsideDragUpdate', {
+                cardId: final.value.id,
+                itemId: final.value.child[newIndex].id,
+                newIndex,
+                oldIndex
+            });
         };
 
         return {
