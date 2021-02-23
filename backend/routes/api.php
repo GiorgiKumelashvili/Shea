@@ -1,6 +1,8 @@
 <?php
 /** @noinspection PhpUndefinedFieldInspection */
 
+use App\Http\Controllers\CardController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\TokenController;
 use Illuminate\Http\Request;
@@ -30,9 +32,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
-Route::post('/t', [\App\Http\Controllers\CardController::class, 'getAll']);
+
+
+Route::post('/t', [CardController::class, 'getAll']);
+Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
+
+Route::post('/updateItemIndexOnAdd', [ItemController::class, 'updateItemIndexOnAdd']);
+Route::post('/updateItemIndexOnRemove', [ItemController::class, 'updateItemIndexOnRemove']);
 
 // testings
-Route::get('/test', [\App\Http\Controllers\CardController::class, 'test']);
-Route::post('/updateCardIndex', [\App\Http\Controllers\CardController::class, 't']);
-
+Route::get('/test', [CardController::class, 'test']);
