@@ -34,9 +34,6 @@
                 </div>
             </div>
 
-            <!-- {{ updateCardState.showCardNameInput }} -->
-            <!-- <h1 v-show="false">ddd</h1> -->
-
             <div class="d-flex p-2" :class="{ 'd-none': !updateCardState.showCardNameInput }">
                 <input
                     class="form-control py-1 px-2"
@@ -56,6 +53,8 @@
                 group="list-of-items"
                 itemKey="list-of-items"
                 v-bind="Const.ItemDragOption"
+                @add="moveItemToNewCard($event)"
+                @remove="removeItemFromOldCard($event)"
             >
                 <template #item="{ element }">
                     <div class="list-group-item mb-2 p-2">
@@ -159,7 +158,25 @@ export default {
             updateCardState.showCardNameInput = false;
         };
 
+        // Item drag update on backend
+        function moveItemToNewCard(e) {
+            const cardId = final.value.id;
+            const { newIndex } = e;
+
+            console.log('added ==> ' + cardId);
+            console.log(newIndex);
+        }
+        function removeItemFromOldCard(e) {
+            const cardId = final.value.id;
+            const { oldIndex } = e;
+
+            console.log('removed ==> ' + cardId);
+            console.log(oldIndex);
+        }
+
         return {
+            moveItemToNewCard,
+            removeItemFromOldCard,
             closeInput,
             showInput,
             Const,
