@@ -40,8 +40,6 @@ Route::post('/getMainData', [CardController::class, 'getAll']);
 Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 Route::post('/addCard', [CardController::class, 'addNewCard']);
 Route::post('/deleteCard', [CardController::class, 'deleteCard']);
-
-//!
 Route::post('/updateCardName', [CardController::class, 'updateCardName']);
 
 // Item methods
