@@ -178,11 +178,14 @@ export default createStore({
          */
 
         createNewCardAndAdd(ctx, payload) {
-            ctx.commit('addNewCard', {
-                name: payload,
-                id: Func.RandomNumber(),
-                child: []
-            });
+            ctx.commit('addNewCard', payload);
+            // ctx.commit('addNewCard', {
+            //     name: payload,
+            //     id: Func.RandomNumber(),
+            //     child: [],
+            //     location: 1,
+            //     index: Math.max(...arr) + 1
+            // });
         },
 
         updateCardPosition(ctx, payload) {

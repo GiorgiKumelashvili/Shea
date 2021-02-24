@@ -12,16 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller {
     public function getAll(): AnonymousResourceCollection {
-        // return CardResource::collection(Card::with('items')->get());
-
         // Ordered by index in cards and items
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
             ->orderBy('index')
             ->get());
-    }
-
-    public function test(): AnonymousResourceCollection {
-        return $this->getAll();
     }
 
     public function updateCardIndex(Request $request): JsonResponse {
@@ -56,5 +50,19 @@ class CardController extends Controller {
         }
 
         return response()->json(['message' => 'changed position of card and indexes']);
+    }
+
+    public function addNewCard(Request $request): JsonResponse {
+        $data = $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'index' => 'required',
+        ]);
+
+        Card::create($data);
+
+        return response()->json([
+            'message' => 'Card added'
+        ]);
     }
 }

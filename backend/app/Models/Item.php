@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMissingFieldTypeInspection */
 
 namespace App\Models;
 
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Item extends Model {
     use HasFactory;
+
+    protected $guarded = [];
 
     public function card(): BelongsTo {
         return $this->belongsTo(Card::class);

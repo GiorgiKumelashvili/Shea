@@ -82,6 +82,10 @@ class ItemController extends Controller {
         return $this->returnResponse();
     }
 
+    public function addNewItem(Request $request) {
+        
+    }
+
     private function returnResponse(): JsonResponse {
         return response()->json([
             'message' => 'changed position of item indexes'

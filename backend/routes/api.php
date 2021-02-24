@@ -33,13 +33,16 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
 
-
+// Get all data from Card
 Route::post('/getMainData', [CardController::class, 'getAll']);
-Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 
+// Card methods
+Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
+Route::post('/addCard', [CardController::class, 'addNewCard']);
+
+// Item methods
 Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
 Route::post('/updateItemIndexOnDragRemove', [ItemController::class, 'updateItemIndexOnDragRemove']);
 Route::post('/updateIndexOnInsideDragUpdate', [ItemController::class, 'updateIndexOnInsideDragUpdate']);
 
-// testings
-Route::get('/test', [CardController::class, 'test']);
+Route::post('/addNewItem', [ItemController::class, 'addNewItem']);
