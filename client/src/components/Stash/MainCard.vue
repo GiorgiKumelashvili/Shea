@@ -181,16 +181,7 @@ export default {
         const inside = ref(true);
 
         const moveItemToNewCard = e => {
-            const cardId = final.value.id;
             const { newIndex } = e;
-
-            console.log('added ==> ' + cardId);
-
-            // console.log({
-            //     cardId: final.value.id,
-            //     itemId: final.value.child[newIndex].id,
-            //     newIndex
-            // });
 
             Back.Service('/updateItemIndexOnDragAdd', {
                 cardId: final.value.id,
@@ -201,12 +192,7 @@ export default {
 
         const removeItemFromOldCard = e => {
             inside.value = false;
-
-            const cardId = final.value.id;
             const { oldIndex } = e;
-
-            console.log('removed ==> ' + cardId);
-            // console.log(oldIndex);
 
             Back.Service('/updateItemIndexOnDragRemove', {
                 cardId: final.value.id,
