@@ -6,12 +6,15 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
 
+use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller {
+    public const DB_NAME = "cards";
+
     public function getAll(): AnonymousResourceCollection {
         // Ordered by index in cards and items
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
@@ -67,11 +70,30 @@ class CardController extends Controller {
         ]);
     }
 
-    public function deleteCard(Request $request) {
+    public function deleteCard(Request $request): JsonResponse {
         $request->validate([
             'id' => 'required'
         ]);
 
-        return $request->id;
+        // First delete item
+        DB::table('items')
+            ->where('card_id', $request->id)
+            ->delete();
+
+        // Second delete card itself
+        Card::destroy($request->id);
+
+        return response()->json([
+            'message' => 'Card deleted'
+        ]);
+    }
+
+    public function updateCardName(Request $request) {
+        $request->validate([
+            'id' => 'required',
+            'newName' => 'required'
+        ]);
+
+//        DB::table(self::DB_NAME)
     }
 }

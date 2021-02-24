@@ -25,7 +25,7 @@
                         class="dropdown-menu dropdown-menu-dark"
                         aria-labelledby="dropdownMenuOffset"
                     >
-                        <li @click="deleteCard(final.id)">
+                        <li @click="deleteCertainCard(final.id)">
                             <p class="dropdown-item m-0">
                                 Delete
                             </p>
@@ -94,6 +94,8 @@
 <script>
 import draggable from 'vuedraggable';
 import Const from '@/libs/Const';
+
+import deleteCard from '@/components/Stash/deleteCard';
 import Back from '@/libs/Back';
 
 import moveItemBackend from '@/components/Stash/moveItemBackend';
@@ -130,7 +132,8 @@ export default {
         });
 
         // Delete card
-        const deleteCard = id => store.dispatch('deleteCardByIndex', id);
+        // const deleteCard = id => store.dispatch('deleteCardByIndex', id);
+        const { deleteCertainCard } = deleteCard;
 
         // Update card children by watching dragging in vuex
         watch(final.value.child, newVal => {
@@ -163,7 +166,7 @@ export default {
             closeInput,
             showInput,
             Const,
-            deleteCard,
+            deleteCertainCard,
             emitOpenItemModalEvent,
             emitAddNewItemModal,
             goToLink,

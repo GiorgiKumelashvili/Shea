@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static where(string $string, mixed $oldIndex)
  * @method static create(array $array)
+ * @method static find(string $string, mixed $id)
  */
 class Card extends Model {
     use HasFactory;

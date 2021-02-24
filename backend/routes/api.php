@@ -41,6 +41,9 @@ Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 Route::post('/addCard', [CardController::class, 'addNewCard']);
 Route::post('/deleteCard', [CardController::class, 'deleteCard']);
 
+//!
+Route::post('/updateCardName', [CardController::class, 'updateCardName']);
+
 // Item methods
 Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
 Route::post('/updateItemIndexOnDragRemove', [ItemController::class, 'updateItemIndexOnDragRemove']);

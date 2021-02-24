@@ -2,13 +2,13 @@ import Back from '@/libs/Back';
 import store from '@/store/index';
 
 const deleteCertainItem = obj => {
+    // Delete in Store
     store.dispatch('deleteItem', obj);
 
-    const { Parent, Child } = obj;
-
+    // Delete in Backend
     Back.Service('/deleteItem', {
-        id: Child,
-        card_id: Parent
+        id: obj.Child,
+        card_id: obj.Parent
     });
 };
 
