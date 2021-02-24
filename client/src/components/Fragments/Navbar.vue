@@ -70,7 +70,7 @@
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
     >
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:400px">
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center border-0">
                     <h5 class="modal-title" id="staticBackdropLabel">
