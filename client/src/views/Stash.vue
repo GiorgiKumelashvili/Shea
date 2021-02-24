@@ -1,6 +1,6 @@
 <template>
     <draggable
-        class="whole-shea-horizontal-scroll mt-2 p-0"
+        class="whole-shea-horizontal-scroll mt-2 pt-2 ps-4"
         itemKey="name"
         tag="transition-group"
         v-model="MainDataShow"
@@ -19,12 +19,12 @@
         </template>
     </draggable>
 
-    <!-- [Message] Erro -->
+    <!-- [Message] Error -->
     <div class="card mx-auto mt-5 p-5" v-else style="width:30rem">
         <h1 class="text-center">Error occured</h1>
     </div>
 
-    <!-- [Button] of adding card  -->
+    <!-- [Fab] For adding card  -->
     <button
         class="btn rounded-circle custom-add-icon"
         data-bs-toggle="modal"
@@ -365,11 +365,13 @@ export default {
 <style scoped>
 .custom-add-icon {
     position: fixed;
-    bottom: 25px;
+    bottom: 40px;
     right: 40px;
 
-    width: 3rem;
-    height: 3rem;
+    width: 3.4rem;
+    height: 3.4rem;
+
+    /* box-shadow: 0px 0px 5px white; */
 
     background-image: var(--main-gradient);
 }

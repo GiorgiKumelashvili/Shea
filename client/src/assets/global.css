@@ -1,5 +1,12 @@
 :root {
-    --image: url('https://www.dreampirates.in/wallpaper/vector/img/25-12-2019-5238-deer-art-vector.jpg');
+    /* --image: url('https://www.dreampirates.in/wallpaper/vector/img/25-12-2019-5238-deer-art-vector.jpg'); */
+    /* --image: url('https://wallpapercave.com/wp/wp2675445.jpg'); */
+    /* --image: url('https://wallpaperaccess.com/full/439757.jpg'); */
+    /* --image: url('https://wallpaperaccess.com/full/109676.jpg'); */
+    /* --image: url('https://images3.alphacoders.com/106/1069102.jpg'); */
+    /* --image: url('https://images.wallpapersden.com/image/download/simple-night_a2htbGyUmZqaraWkpJRmbmdlrWZlbWU.jpg'); */
+    --image: url('https://images.hdqwalls.com/download/abstract-simple-colors-8k-jk-1920x1080.jpg');
+    /* --image: url('https://wallpaperaccess.com/full/1129092.jpg'); */
     --main-gradient: linear-gradient(315deg, #fdffba 0%, #e5d4ff 74%);
 }
 
@@ -37,4 +44,9 @@ body {
 .force-wrap {
     white-space: normal !important;
     word-wrap: break-word !important;
+}
+
+.center-vertically {
+    display: flex;
+    align-items: center;
 }

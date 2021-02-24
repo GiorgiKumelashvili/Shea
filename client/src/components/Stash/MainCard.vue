@@ -123,8 +123,7 @@ export default {
 
         const updateCardState = reactive({
             showCardNameInput: false,
-            temp: final.value.name,
-            equalsOld: computed(() => final.value.name === updateCardState.temp)
+            temp: final.value.name
         });
 
         // Delete card
@@ -141,12 +140,6 @@ export default {
         // Update Card Name
         const updateCardName = id => {
             updateCardState.showCardNameInput = false; // remove input after updating
-
-            // Don't execute if old value is still present
-            if (updateCardState.equalsOld.value) {
-                return;
-            }
-
             store.dispatch('updateCardName', { newCardName: final.value.name, id });
         };
 

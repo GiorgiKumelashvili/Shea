@@ -5,7 +5,8 @@ export default {
         plus: require('@/assets/svgs/bi-plus.svg'),
         xCircle: require('@/assets/svgs/bi-fullscreen-exit.svg'),
         Link: require('@/assets/svgs/bi-link.svg'),
-        Link_Light: require('@/assets/svgs/bi-link-light.svg')
+        Link_Light: require('@/assets/svgs/bi-link-light.svg'),
+        share: require('@/assets/svgs/bi-share.svg')
     },
     betweenClass: 'd-flex justify-content-between align-items-center',
 

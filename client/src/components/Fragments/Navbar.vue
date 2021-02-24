@@ -1,8 +1,12 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container container-fluid">
-            <a class="navbar-brand">
-                <router-link class="text-decoration-none text-light" :to="{ name: 'home' }">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-custom py-1">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand py-0">
+                <router-link
+                    class="text-decoration-none text-light d-flex align-items-center justify-content-between"
+                    :to="{ name: 'home' }"
+                >
+                    <img :src="Const.svgs.share" alt="" class="pe-2" />
                     {{ title }}
                 </router-link>
             </a>
@@ -20,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page">
+                        <a class="nav-link py-0 active" aria-current="page">
                             <router-link
                                 :to="{ name: 'board' }"
                                 class="text-decoration-none text-light"
@@ -30,7 +34,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">
+                        <a class="nav-link py-0">
                             <router-link
                                 :to="{ name: 'stash' }"
                                 class="text-decoration-none text-light"
@@ -40,7 +44,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">
+                        <a class="nav-link py-0">
                             <router-link
                                 :to="{ name: 'about' }"
                                 class="text-decoration-none text-light"
@@ -93,6 +97,8 @@
 <script>
 import Profile from '@/components/Fragments/Profile';
 import Logout from '@/components/Fragments/Logout';
+import Const from '@/libs/Const';
+
 export default {
     components: {
         Logout,
@@ -101,7 +107,14 @@ export default {
     setup() {
         const title = 'Shea';
 
-        return { title };
+        return { title, Const };
     }
 };
 </script>
+
+<style scoped>
+.bg-custom {
+    background-color: rgba(60, 60, 60, 0.4) !important;
+    backdrop-filter: blur(2px) !important;
+}
+</style>
