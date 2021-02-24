@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedFieldInspection */
 
 namespace App\Http\Controllers;
 
@@ -64,5 +65,13 @@ class CardController extends Controller {
         return response()->json([
             'message' => 'Card added'
         ]);
+    }
+
+    public function deleteCard(Request $request) {
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        return $request->id;
     }
 }

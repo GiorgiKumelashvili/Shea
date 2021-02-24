@@ -136,7 +136,7 @@
                             <p
                                 class="dropdown-item m-0"
                                 @click="
-                                    deleteItem({
+                                    deleteCertainItem({
                                         Parent: itemData.card.id,
                                         Child: itemData.item.id
                                     })
@@ -234,7 +234,8 @@
 import Fab from '../components/Stash/Fab.vue';
 import addItem from '@/components/Stash/addItem';
 import showItem from '@/components/Stash/showItem';
-import addCard from '@/components/Stash/addCard';
+import deleteItem from '@/components/Stash/deleteItem';
+
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 
 import MainCard from '@/components/Stash/MainCard.vue';
@@ -268,9 +269,12 @@ export default {
         const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
         const { itemData, openItemModal } = showItem; // Show item modal
         const { draggableKey } = wholeCardRefresh; // Add new card
+        const { deleteCertainItem } = deleteItem;
 
-        // Delete certain item
-        const deleteItem = obj => store.dispatch('deleteItem', obj);
+        // // Delete certain item
+        // const deleteItem = obj => {
+        //     store.dispatch('deleteItem', obj);
+        // };
 
         // Update card index after single Drag
         const changeMain = ({ oldIndex, newIndex }) => {
@@ -304,7 +308,7 @@ export default {
             store,
             MainDataShow,
             Const,
-            deleteItem,
+            deleteCertainItem,
             draggableKey,
             itemData,
             openItemModal,

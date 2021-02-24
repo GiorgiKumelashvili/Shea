@@ -122,8 +122,19 @@ export default createStore({
         },
 
         deleteItem(state, { cardIndex, itemIndex }) {
+            const item = state.MainData[cardIndex].child[itemIndex];
+
+            // delete
             state.MainData[cardIndex].child.splice(itemIndex, 1);
-            console.log({ cardIndex, itemIndex });
+
+            // decrement indexes
+            state.MainData[cardIndex].child.forEach((el, i) => {
+                if (el.index > item.index) {
+                    state.MainData[cardIndex].child[i].index = el.index - 1;
+                }
+            });
+
+            // refresh ui
             wholeCardRefresh.refresh();
         }
     },
@@ -179,13 +190,6 @@ export default createStore({
 
         createNewCardAndAdd(ctx, payload) {
             ctx.commit('addNewCard', payload);
-            // ctx.commit('addNewCard', {
-            //     name: payload,
-            //     id: Func.RandomNumber(),
-            //     child: [],
-            //     location: 1,
-            //     index: Math.max(...arr) + 1
-            // });
         },
 
         updateCardPosition(ctx, payload) {

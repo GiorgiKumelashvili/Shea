@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedFieldInspection */
 
 namespace App\Http\Controllers;
 
@@ -95,6 +96,33 @@ class ItemController extends Controller {
 
         return response()->json([
             'message' => 'Added new item'
+        ]);
+    }
+
+    public function deleteItem(Request $request): JsonResponse {
+        $request->validate([
+            'id' => 'required',
+            'card_id' => 'required'
+        ]);
+
+        // Get item
+        $item = Item::where('id', $request->id)->first();
+
+        // Save item index
+        $index = $item->index;
+
+        // Delete item
+        $item->delete();
+
+        // Decrement indexes
+        DB::table(self::DB_NAME)
+            ->where('card_id', $request->card_id)
+            ->where('index', '>', $index)
+            ->decrement('index');
+
+        // return response
+        return response()->json([
+            'message' => 'Deleted Item'
         ]);
     }
 

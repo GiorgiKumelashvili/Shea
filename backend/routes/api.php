@@ -39,6 +39,7 @@ Route::post('/getMainData', [CardController::class, 'getAll']);
 // Card methods
 Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
 Route::post('/addCard', [CardController::class, 'addNewCard']);
+Route::post('/deleteCard', [CardController::class, 'deleteCard']);
 
 // Item methods
 Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
@@ -46,3 +47,4 @@ Route::post('/updateItemIndexOnDragRemove', [ItemController::class, 'updateItemI
 Route::post('/updateIndexOnInsideDragUpdate', [ItemController::class, 'updateIndexOnInsideDragUpdate']);
 
 Route::post('/addNewItem', [ItemController::class, 'addNewItem']);
+Route::post('/deleteItem', [ItemController::class, 'deleteItem']);
