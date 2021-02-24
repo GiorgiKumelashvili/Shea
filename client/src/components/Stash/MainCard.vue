@@ -53,9 +53,9 @@
                 group="list-of-items"
                 itemKey="list-of-items"
                 v-bind="Const.ItemDragOption"
-                @add="moveItemToNewCard($event)"
-                @remove="removeItemFromOldCard($event)"
-                @end="moveItemInside($event)"
+                @add="moveItemToNewCard($event, final)"
+                @remove="removeItemFromOldCard($event, final)"
+                @end="moveItemInside($event, final)"
             >
                 <template #item="{ element }">
                     <div class="list-group-item mb-2 p-2">
@@ -96,6 +96,8 @@ import draggable from 'vuedraggable';
 import Const from '@/libs/Const';
 import Back from '@/libs/Back';
 
+import moveItemBackend from '@/components/Stash/moveItemBackend';
+
 import { useStore } from 'vuex';
 import { ref, watch, computed, reactive } from 'vue';
 
@@ -113,6 +115,7 @@ export default {
     setup(props, ctx) {
         const store = useStore();
         const final = ref(JSON.parse(JSON.stringify(props.elementProp)));
+        const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
@@ -151,62 +154,6 @@ export default {
 
         const closeInput = () => {
             updateCardState.showCardNameInput = false;
-        };
-
-        /**
-         * Item drag update on backend
-         *
-         * @method moveItemToNewCar
-         * @method removeItemFromOldCard
-         *
-         * @description @method moveItemInside
-         * Execution process:
-         *      I)  Remove
-         *      II) End
-         *
-         *      So this method executes only once
-         *      which is when dragged only inside
-         *      this is why we need inside var
-         *      because it also executes on
-         *      moving outside of card
-         */
-
-        const inside = ref(true);
-
-        const moveItemToNewCard = e => {
-            const { newIndex } = e;
-
-            Back.Service('/updateItemIndexOnDragAdd', {
-                cardId: final.value.id,
-                itemId: final.value.child[newIndex].id,
-                newIndex
-            });
-        };
-
-        const removeItemFromOldCard = e => {
-            inside.value = false;
-            const { oldIndex } = e;
-
-            Back.Service('/updateItemIndexOnDragRemove', {
-                cardId: final.value.id,
-                oldIndex
-            });
-        };
-
-        const moveItemInside = e => {
-            if (!inside.value) {
-                inside.value = true;
-                return;
-            }
-
-            const { newIndex, oldIndex } = e;
-
-            Back.Service('/updateIndexOnInsideDragUpdate', {
-                cardId: final.value.id,
-                itemId: final.value.child[newIndex].id,
-                newIndex,
-                oldIndex
-            });
         };
 
         return {
