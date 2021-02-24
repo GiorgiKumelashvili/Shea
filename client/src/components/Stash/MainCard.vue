@@ -6,7 +6,7 @@
                 :class="Const.betweenClass"
                 class="px-2 pt-2"
                 @click="showInput(final.id)"
-                v-if="!updateCardState.showCardNameInput"
+                v-if="!showCardNameInput"
             >
                 <h5 class="card-title m-0 flex-grow-1 text-truncate">
                     {{ final.name }}
@@ -34,14 +34,14 @@
                 </div>
             </div>
 
-            <div class="d-flex p-2" :class="{ 'd-none': !updateCardState.showCardNameInput }">
+            <div class="d-flex p-2" :class="{ 'd-none': !showCardNameInput }">
                 <input
                     class="form-control py-1 px-2"
                     :id="'name-input-' + final.id"
                     v-model="final.name"
                     type="text"
                     placeholder="Name"
-                    @keyup.enter="updateCardName(final.id)"
+                    @keyup.enter="updateCertainCardName(final.id, final.name)"
                     @blur="closeInput()"
                 />
             </div>
@@ -92,16 +92,15 @@
 </template>
 
 <script>
+import deleteCard from '@/components/Stash/deleteCard';
+import updateCardName from '@/components/Stash/updateCardName';
+import moveItemBackend from '@/components/Stash/moveItemBackend';
+
 import draggable from 'vuedraggable';
 import Const from '@/libs/Const';
 
-import deleteCard from '@/components/Stash/deleteCard';
-import Back from '@/libs/Back';
-
-import moveItemBackend from '@/components/Stash/moveItemBackend';
-
 import { useStore } from 'vuex';
-import { ref, watch, computed, reactive } from 'vue';
+import { ref, watch } from 'vue';
 
 export default {
     name: 'two-lists',
@@ -118,6 +117,8 @@ export default {
         const store = useStore();
         const final = ref(JSON.parse(JSON.stringify(props.elementProp)));
         const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
+        const { showCardNameInput, updateCertainCardName, showInput, closeInput } = updateCardName;
+        const { deleteCertainCard } = deleteCard;
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
@@ -126,15 +127,6 @@ export default {
         // Go to link
         const goToLink = url => window.open(url);
 
-        const updateCardState = reactive({
-            showCardNameInput: false,
-            temp: final.value.name
-        });
-
-        // Delete card
-        // const deleteCard = id => store.dispatch('deleteCardByIndex', id);
-        const { deleteCertainCard } = deleteCard;
-
         // Update card children by watching dragging in vuex
         watch(final.value.child, newVal => {
             const index = store.getters.findCardIndexById(final.value.id);
@@ -142,22 +134,6 @@ export default {
 
             store.dispatch('updateItemPosition', { newChildren, index });
         });
-
-        // Update Card Name
-        const updateCardName = id => {
-            updateCardState.showCardNameInput = false; // remove input after updating
-            store.dispatch('updateCardName', { newCardName: final.value.name, id });
-        };
-
-        const showInput = id => {
-            updateCardState.showCardNameInput = true;
-            const el = document.getElementById('name-input-' + id);
-            setTimeout(() => el.focus(), 0);
-        };
-
-        const closeInput = () => {
-            updateCardState.showCardNameInput = false;
-        };
 
         return {
             moveItemInside,
@@ -170,9 +146,9 @@ export default {
             emitOpenItemModalEvent,
             emitAddNewItemModal,
             goToLink,
-            updateCardState,
+            showCardNameInput,
             final,
-            updateCardName
+            updateCertainCardName
         };
     }
 };

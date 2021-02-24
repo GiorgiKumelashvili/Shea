@@ -88,12 +88,18 @@ class CardController extends Controller {
         ]);
     }
 
-    public function updateCardName(Request $request) {
+    public function updateCardName(Request $request): JsonResponse {
         $request->validate([
             'id' => 'required',
             'newName' => 'required'
         ]);
 
-//        DB::table(self::DB_NAME)
+        DB::table(self::DB_NAME)
+            ->where('id', $request->id)
+            ->update(['name' => $request->newName]);
+
+        return response()->json([
+           'message' => 'Card name updated'
+        ]);
     }
 }
