@@ -106,7 +106,6 @@ export default {
     },
     setup() {
         const title = 'Shea';
-
         return { title, Const };
     }
 };

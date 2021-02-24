@@ -88,7 +88,7 @@ export default createStore({
          */
 
         addNewCard(state, payload) {
-            state.MainData.unshift(payload);
+            state.MainData.push(payload);
         },
 
         updateCardPosition(state, { oldIndex, newIndex, card }) {
