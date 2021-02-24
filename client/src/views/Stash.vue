@@ -46,6 +46,7 @@
                         aria-label="Close"
                     />
                 </div>
+
                 <div class="modal-body py-0">
                     <div class="py-2 d-flex flex-column">
                         <label for="exampleFormName" class="form-label ps-1 pb-2">
@@ -87,6 +88,7 @@
                         />
                     </div>
                 </div>
+
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
                         Discard
@@ -95,7 +97,7 @@
                         type="button"
                         class="btn btn-primary btn-sm"
                         data-bs-dismiss="modal"
-                        @click="addNewItemToCardInStore(cardId)"
+                        @click="addNewItemToCardInStore(cardData)"
                     >
                         Add New Item
                     </button>
@@ -241,7 +243,7 @@ import Const from '@/libs/Const';
 import Back from '@/libs/Back';
 
 import { useStore } from 'vuex';
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 
 export default {
     name: 'two-lists',
@@ -285,9 +287,18 @@ export default {
             store.dispatch('updateCardPosition', { oldIndex, newIndex, card });
         };
 
-        // Event Listenings
-        const cardId = ref(null);
-        const saveCardId = id => (cardId.value = id);
+        // For adding new card
+        const cardData = reactive({
+            id: null,
+            data: null
+        });
+
+        const saveCardId = obj => {
+            const { id, final } = obj;
+
+            cardData.id = id;
+            cardData.data = final;
+        };
 
         return {
             store,
@@ -298,7 +309,7 @@ export default {
             itemData,
             openItemModal,
             changeMain,
-            cardId,
+            cardData,
             newItemForm,
             saveCardId,
             addNewItemToCardInStore

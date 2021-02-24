@@ -82,8 +82,20 @@ class ItemController extends Controller {
         return $this->returnResponse();
     }
 
-    public function addNewItem(Request $request) {
-        
+    public function addNewItem(Request $request): JsonResponse {
+        $data = $request->validate([
+            'name' => 'required',
+            'card_id' => 'required',
+            'url' => 'required',
+            'index' => 'required',
+            'description' => 'nullable'
+        ]);
+
+        Item::create($data);
+
+        return response()->json([
+            'message' => 'Added new item'
+        ]);
     }
 
     private function returnResponse(): JsonResponse {

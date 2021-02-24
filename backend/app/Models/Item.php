@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @method static where(string $string, mixed $cardId)
+ * @method static create(array $data)
  */
 class Item extends Model {
     use HasFactory;

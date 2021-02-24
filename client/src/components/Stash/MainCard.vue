@@ -119,7 +119,7 @@ export default {
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
-        const emitAddNewItemModal = id => ctx.emit('addNewItemModalEvt', id);
+        const emitAddNewItemModal = id => ctx.emit('addNewItemModalEvt', { id, final });
 
         // Go to link
         const goToLink = url => window.open(url);
