@@ -36,6 +36,8 @@ createApp(App)
     (+) update card
     (+) delete card 
 
+    ( ) after add neew item everything must refresh or at least card !!!!
+
     (+) open link
     (+) validate add new item (don't allow empty name and url)
     (+) delete doesnt work after adding card and dragging any card

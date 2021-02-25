@@ -1,8 +1,7 @@
 import Back from '@/libs/Back';
 import store from '@/store/index';
 
-// Update Card Name
-const updateCertainCardName = (id, name) => {
+const updateCardName = (id, name) => {
     // Update in Store
     store.dispatch('updateCardName', { newCardName: name, id });
 
@@ -10,15 +9,15 @@ const updateCertainCardName = (id, name) => {
     Back.Service('/updateCardName', { id, newName: name });
 };
 
-const showInput = id => {
+const focusInput = id => {
     const el = document.getElementById('name-input-' + id);
-    console.log(el);
+
     if (!el) return;
 
     setTimeout(() => el.focus(), 0);
 };
 
 export default {
-    updateCertainCardName,
-    showInput
+    updateCardName,
+    focusInput
 };

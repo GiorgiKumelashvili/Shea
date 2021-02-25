@@ -49,3 +49,5 @@ Route::post('/updateIndexOnInsideDragUpdate', [ItemController::class, 'updateInd
 
 Route::post('/addNewItem', [ItemController::class, 'addNewItem']);
 Route::post('/deleteItem', [ItemController::class, 'deleteItem']);
+
+Route::post('/updateItem', [ItemController::class, 'updateItem']);

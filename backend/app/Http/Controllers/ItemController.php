@@ -7,6 +7,7 @@ use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Mime\Encoder\Rfc2231Encoder;
 
 class ItemController extends Controller {
     public const DB_NAME = "items";
@@ -96,6 +97,30 @@ class ItemController extends Controller {
 
         return response()->json([
             'message' => 'Added new item'
+        ]);
+    }
+
+    public function updateItem(Request $request): JsonResponse {
+        $request->validate([
+            'id' => 'required',
+            'url' => 'nullable',
+            'name' => 'nullable'
+        ]);
+
+        if (isset($request->url)) {
+            Item::where('id', $request->id)->update([
+                'url' => $request->url
+            ]);
+        }
+
+        if (isset($request->name)) {
+            Item::where('id', $request->id)->update([
+                'name' => $request->name
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Updated item'
         ]);
     }
 

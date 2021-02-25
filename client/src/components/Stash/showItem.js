@@ -8,7 +8,8 @@ const itemData = reactive({
 });
 
 const openItemModal = ({ Parent, Child }) => {
-    const card = store.getters.findCardById(Parent);
+    // Copy
+    const card = JSON.parse(JSON.stringify(store.getters.findCardById(Parent)));
 
     itemData.card = { name: card.name, id: Parent };
     itemData.item = card.child.find(item => item.id === Child);

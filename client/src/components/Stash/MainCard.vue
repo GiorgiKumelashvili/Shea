@@ -6,10 +6,10 @@
                 :class="Const.betweenClass"
                 class="px-2 pt-2"
                 @click="
-                    showCardNameInput = true;
-                    showInput(final.id, showCardNameInput);
+                    focusInput(final.id, CardNameInput);
+                    showCardNameInput();
                 "
-                v-if="!showCardNameInput"
+                v-if="!CardNameInput"
             >
                 <h5 class="card-title m-0 flex-grow-1 text-truncate">
                     {{ final.name }}
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="d-flex p-2" :class="{ 'd-none': !showCardNameInput }">
+            <div class="d-flex p-2" :class="{ 'd-none': !CardNameInput }">
                 <input
                     class="form-control py-1 px-2"
                     :id="'name-input-' + final.id"
@@ -45,10 +45,10 @@
                     type="text"
                     placeholder="Name"
                     @keyup.enter="
-                        updateCertainCardName(final.id, final.name);
-                        closeInput();
+                        updateCardName(final.id, final.name);
+                        closeCardNameInput();
                     "
-                    @blur="closeInput()"
+                    @blur="closeCardNameInput()"
                 />
             </div>
 
@@ -99,7 +99,7 @@
 
 <script>
 import deleteCard from '@/components/Stash/deleteCard';
-import updateCardName from '@/components/Stash/updateCardName';
+import updateCard from '@/components/Stash/updateCard';
 import moveItemBackend from '@/components/Stash/moveItemBackend';
 
 import draggable from 'vuedraggable';
@@ -124,11 +124,12 @@ export default {
         const final = ref(JSON.parse(JSON.stringify(props.elementProp)));
         const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
         const { deleteCertainCard } = deleteCard;
+        const { updateCardName, focusInput } = updateCard;
 
         // Update card name
-        const { updateCertainCardName, showInput } = updateCardName;
-        const showCardNameInput = ref(false);
-        const closeInput = () => (showCardNameInput.value = false);
+        const CardNameInput = ref(false);
+        const showCardNameInput = (CardNameInput.value = true);
+        const closeCardNameInput = (CardNameInput.value = false);
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
@@ -149,16 +150,17 @@ export default {
             moveItemInside,
             moveItemToNewCard,
             removeItemFromOldCard,
-            closeInput,
-            showInput,
+            showCardNameInput,
+            closeCardNameInput,
+            focusInput,
             Const,
             deleteCertainCard,
             emitOpenItemModalEvent,
             emitAddNewItemModal,
             goToLink,
-            showCardNameInput,
+            CardNameInput,
             final,
-            updateCertainCardName
+            updateCardName
         };
     }
 };

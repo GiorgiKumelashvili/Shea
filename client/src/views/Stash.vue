@@ -151,14 +151,37 @@
                     </ul>
                 </div>
                 <div class="modal-body">
-                    <h4
-                        class="text-center font-monospace m-0 py-3"
-                        v-if="itemData.item && itemData.item.hasOwnProperty('name')"
-                    >
-                        {{ itemData.item.name[0].toUpperCase() + itemData.item.name.slice(1) }}
-                    </h4>
+                    <!-- Item name -->
+                    <div v-if="itemData.item && itemData.item.hasOwnProperty('name')">
+                        <h4
+                            class="text-center font-monospace m-0 py-3 pointer"
+                            @click="
+                                focusItemInputName(itemData.item.id);
+                                showItemNameInput();
+                            "
+                            v-if="!ItemNameInput"
+                        >
+                            {{ itemData.item.name[0].toUpperCase() + itemData.item.name.slice(1) }}
+                        </h4>
 
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            class="form-control my-3 py-2"
+                            v-model="itemData.item.name"
+                            :class="{ 'd-none': !ItemNameInput }"
+                            :id="'item-name-input-' + itemData.item.id"
+                            @keyup.enter="
+                                updateItemName(itemData.item.id, itemData.item.name);
+                                closeItemNameInput();
+                            "
+                            @blur="closeItemNameInput()"
+                        />
+                    </div>
+
+                    <!-- Item properties -->
                     <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <!-- Url -->
                         <div
                             class="accordion-item"
                             v-if="itemData.item && itemData.item.hasOwnProperty('url')"
@@ -183,15 +206,39 @@
                                 <div
                                     class="accordion-body d-flex align-items-center justify-content-between pointer"
                                 >
-                                    <!-- Url -->
-                                    <p class="m-0 text-truncate">
-                                        {{ itemData.item.url }}
-                                    </p>
+                                    <div class="text-truncate pointer flex-grow-1">
+                                        <!--//!  Url body -->
+                                        <p
+                                            class="m-0 text-truncate pointer"
+                                            @click="
+                                                focusItemInputUrl(itemData.item.id);
+                                                showItemUrlInput();
+                                            "
+                                            v-if="!ItemUrlInput"
+                                        >
+                                            {{ itemData.item.url }}
+                                        </p>
+
+                                        <input
+                                            type="text"
+                                            placeholder="Name"
+                                            class="form-control"
+                                            v-model="itemData.item.url"
+                                            :class="{ 'd-none': !ItemUrlInput }"
+                                            :id="'item-url-input-' + itemData.item.id"
+                                            @keyup.enter="
+                                                updateItemUrl(itemData.item.id, itemData.item.url);
+                                                closeItemUrlInput();
+                                            "
+                                            @blur="closeItemUrlInput()"
+                                        />
+                                    </div>
 
                                     <!-- Button -->
                                     <button
                                         class="btn btn-sm btn-secondaryborder-0 text-light ms-2 p-0 px-1 outline-none shadow-none"
                                         style="background:var(--bs-indigo)"
+                                        @click="goToLink(itemData.item.url)"
                                     >
                                         Redirect
                                     </button>
@@ -235,6 +282,7 @@
 import Fab from '../components/Stash/Fab.vue';
 import addItem from '@/components/Stash/addItem';
 import showItem from '@/components/Stash/showItem';
+import updateItem from '@/components/Stash/updateItem';
 import deleteItem from '@/components/Stash/deleteItem';
 
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
@@ -266,11 +314,15 @@ export default {
             set: () => null
         });
 
-        // Mixin
+        // Open link
+        const goToLink = url => window.open(url);
+
+        // Mixins
+        const { draggableKey } = wholeCardRefresh; // Add new card
         const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
         const { itemData, openItemModal } = showItem; // Show item modal
-        const { draggableKey } = wholeCardRefresh; // Add new card
-        const { deleteCertainItem } = deleteItem;
+        const { focusItemInputName, updateItemName, focusItemInputUrl, updateItemUrl } = updateItem; // Update item modal
+        const { deleteCertainItem } = deleteItem; // delete Item
 
         // Update card index after single Drag
         const changeMain = ({ oldIndex, newIndex }) => {
@@ -300,8 +352,19 @@ export default {
             cardData.data = final;
         };
 
+        // For Updating item name
+        const ItemNameInput = ref(false);
+        const showItemNameInput = () => (ItemNameInput.value = true);
+        const closeItemNameInput = () => (ItemNameInput.value = false);
+
+        // For Updating item url
+        const ItemUrlInput = ref(false);
+        const showItemUrlInput = () => (ItemUrlInput.value = true);
+        const closeItemUrlInput = () => (ItemUrlInput.value = false);
+
         return {
             store,
+            goToLink,
             MainDataShow,
             Const,
             deleteCertainItem,
@@ -312,7 +375,20 @@ export default {
             cardData,
             newItemForm,
             saveCardId,
-            addNewItemToCardInStore
+            addNewItemToCardInStore,
+
+            //! new
+            ItemNameInput,
+            focusItemInputName,
+            showItemNameInput,
+            updateItemName,
+            closeItemNameInput,
+
+            ItemUrlInput,
+            focusItemInputUrl,
+            showItemUrlInput,
+            updateItemUrl,
+            closeItemUrlInput
         };
     }
 };
