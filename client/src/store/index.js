@@ -1,6 +1,5 @@
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 import Back from '@/libs/Back';
-import Func from '@/libs/Func';
 import { createStore } from 'vuex';
 
 export default createStore({

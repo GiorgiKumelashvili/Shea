@@ -3,9 +3,11 @@ import store from '@/store/index';
 import Back from '@/libs/Back';
 import Func from '@/libs/Func';
 
+import wholeCardRefresh from './wholeCardRefresh';
+
 const cardName = ref(null);
 
-const addNewCard = () => {
+const addNewCard = async () => {
     const arr = store.getters.MainData.map(obj => obj.index);
 
     let obj = {
@@ -20,7 +22,10 @@ const addNewCard = () => {
     store.dispatch('createNewCardAndAdd', obj);
 
     // Add on Backend
-    Back.Service('/addCard', obj);
+    await Back.Service('/addCard', obj);
+
+    // Refresh whole data
+    wholeCardRefresh.forcedRefresh();
 };
 
 export default { cardName, addNewCard };
