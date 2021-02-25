@@ -33,6 +33,7 @@ createApp(App)
     (+) update item
 
     (+) create card
+    (+) show card
     (+) update card
     (+) delete card 
     
