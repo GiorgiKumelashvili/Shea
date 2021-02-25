@@ -75,13 +75,24 @@ class CardController extends Controller {
             'id' => 'required'
         ]);
 
-        // First delete item
+        // First delete items
         DB::table('items')
             ->where('card_id', $request->id)
             ->delete();
 
+        // Get card
+        $card = Card::where('id', $request->id)->first();
+
+        // Save card index
+        $index = $card->index;
+
         // Second delete card itself
-        Card::destroy($request->id);
+        $card->delete();
+
+        // Third decrement indexes
+        DB::table(self::DB_NAME)
+            ->where('index', '>', $index)
+            ->decrement('index');
 
         return response()->json([
             'message' => 'Card deleted'

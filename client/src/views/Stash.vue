@@ -272,11 +272,6 @@ export default {
         const { draggableKey } = wholeCardRefresh; // Add new card
         const { deleteCertainItem } = deleteItem;
 
-        // // Delete certain item
-        // const deleteItem = obj => {
-        //     store.dispatch('deleteItem', obj);
-        // };
-
         // Update card index after single Drag
         const changeMain = ({ oldIndex, newIndex }) => {
             const card = store.getters.MainData[oldIndex];

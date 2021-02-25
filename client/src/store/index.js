@@ -100,8 +100,22 @@ export default createStore({
             state.MainData[index].name = newCardName;
         },
 
+        //!
         deleteCard(state, payload) {
+            const card = state.MainData[payload];
+
+            // delete
             state.MainData.splice(payload, 1);
+
+            // decrement indexes
+            state.MainData.forEach((el, i) => {
+                if (el.index > card.index) {
+                    state.MainData[payload].index = el.index - 1;
+                }
+            });
+
+            // refresh ui
+            wholeCardRefresh.refresh();
         },
 
         /**
