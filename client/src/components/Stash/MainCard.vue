@@ -128,8 +128,8 @@ export default {
 
         // Update card name
         const CardNameInput = ref(false);
-        const showCardNameInput = (CardNameInput.value = true);
-        const closeCardNameInput = (CardNameInput.value = false);
+        const showCardNameInput = () => (CardNameInput.value = true);
+        const closeCardNameInput = () => (CardNameInput.value = false);
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
