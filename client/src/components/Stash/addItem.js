@@ -2,6 +2,7 @@ import { reactive } from 'vue';
 import store from '@/store/index';
 import Func from '@/libs/Func';
 import Back from '@/libs/Back';
+import wholeCardRefresh from './wholeCardRefresh';
 
 // State
 const state = reactive({
@@ -12,7 +13,7 @@ const state = reactive({
     index: null
 });
 
-const addNewItemToCardInStore = obj => {
+const addNewItemToCardInStore = async obj => {
     if (!state.name || !state.url) {
         return null;
     }
@@ -30,10 +31,13 @@ const addNewItemToCardInStore = obj => {
     });
 
     // Add for Backend
-    Back.Service('/addNewItem', {
+    await Back.Service('/addNewItem', {
         ...JSON.parse(JSON.stringify(state)),
         card_id: id
     });
+
+    // Refresh whole data
+    wholeCardRefresh.forcedRefresh();
 };
 
 export default {
