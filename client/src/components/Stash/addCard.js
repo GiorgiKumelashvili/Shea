@@ -1,9 +1,14 @@
+// vue
 import { ref } from 'vue';
 import store from '@/store/index';
+
+// libs
 import Back from '@/libs/Back';
 import Func from '@/libs/Func';
+import Const from '@/libs/Const';
 
-import wholeCardRefresh from './wholeCardRefresh';
+// other
+import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 
 const cardName = ref(null);
 
@@ -14,7 +19,7 @@ const addNewCard = async () => {
         name: cardName.value,
         id: Func.RandomNumber(),
         child: [],
-        location: 1,
+        location: Const.locations.stash,
         index: Math.max(...arr) + 1
     };
 

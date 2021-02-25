@@ -1,4 +1,9 @@
 export default {
+    locations: {
+        stash: 1,
+        archive: 2
+    },
+
     svgs: {
         settings: require('@/assets/svgs/bi-setting.svg'),
         itemPen: require('@/assets/svgs/bi-pen.svg'),
