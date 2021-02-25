@@ -98,6 +98,7 @@
                         class="btn btn-primary btn-sm"
                         data-bs-dismiss="modal"
                         @click="addNewItemToCardInStore(cardData)"
+                        :disabled="!newItemForm.name || !newItemForm.url"
                     >
                         Add New Item
                     </button>

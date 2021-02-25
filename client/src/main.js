@@ -36,8 +36,8 @@ createApp(App)
     (+) update card
     (+) delete card 
 
-    ( ) open link
-    ( ) validate add new item (don't allow empty name and url)
+    (+) open link
+    (+) validate add new item (don't allow empty name and url)
     ( ) add multiple buttons in url inside item ['show full url', 'redirect', 'update']
     (+) delete doesnt work after adding card and dragging any card
 */

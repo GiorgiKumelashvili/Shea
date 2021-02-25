@@ -12,8 +12,11 @@ const state = reactive({
     index: null
 });
 
-// Upda
 const addNewItemToCardInStore = obj => {
+    if (!state.name || !state.url) {
+        return null;
+    }
+
     const { id, data } = obj;
     const indexArr = data.child.map(obj => obj.index);
 
