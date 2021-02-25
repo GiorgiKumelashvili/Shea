@@ -5,7 +5,10 @@
             <div
                 :class="Const.betweenClass"
                 class="px-2 pt-2"
-                @click="showInput(final.id)"
+                @click="
+                    showCardNameInput = true;
+                    showInput(final.id, showCardNameInput);
+                "
                 v-if="!showCardNameInput"
             >
                 <h5 class="card-title m-0 flex-grow-1 text-truncate">
@@ -41,7 +44,10 @@
                     v-model="final.name"
                     type="text"
                     placeholder="Name"
-                    @keyup.enter="updateCertainCardName(final.id, final.name)"
+                    @keyup.enter="
+                        updateCertainCardName(final.id, final.name);
+                        closeInput();
+                    "
                     @blur="closeInput()"
                 />
             </div>
@@ -117,8 +123,12 @@ export default {
         const store = useStore();
         const final = ref(JSON.parse(JSON.stringify(props.elementProp)));
         const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
-        const { showCardNameInput, updateCertainCardName, showInput, closeInput } = updateCardName;
         const { deleteCertainCard } = deleteCard;
+
+        // Update card name
+        const { updateCertainCardName, showInput } = updateCardName;
+        const showCardNameInput = ref(false);
+        const closeInput = () => (showCardNameInput.value = false);
 
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);

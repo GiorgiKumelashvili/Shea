@@ -1,5 +1,6 @@
 import Back from '@/libs/Back';
 import store from '@/store/index';
+import wholeCardRefresh from './wholeCardRefresh';
 
 const deleteCertainCard = id => {
     // Delete in Store
