@@ -161,7 +161,6 @@ export default createStore({
             const data = await Back.Service('/getMainData');
 
             if (data.response && data.response.statusText) {
-                console.log(data.response.statusText);
                 return;
             }
 

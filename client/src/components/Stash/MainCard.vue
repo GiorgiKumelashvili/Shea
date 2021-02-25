@@ -15,7 +15,7 @@
                     {{ final.name }}
                 </h5>
 
-                <div class="dropdown" style="z-index:900">
+                <div class="dropdown" style="z-index:1">
                     <img
                         :src="Const.svgs.settings"
                         class="icon-hover p-2 rounded"
@@ -66,7 +66,7 @@
                 <template #item="{ element }">
                     <div class="list-group-item mb-2 p-2">
                         <p
-                            class="m-0"
+                            class="m-0 force-wrap"
                             @click="emitOpenItemModalEvent({ Parent: final.id, Child: element.id })"
                             data-bs-toggle="modal"
                             data-bs-target="#OpenCardModal"

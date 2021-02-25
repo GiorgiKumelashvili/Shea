@@ -43,15 +43,15 @@ export default {
     setup() {
         const links = [
             {
+                name: 'Archive',
+                link: ''
+            },
+            {
                 name: 'Settings',
                 link: ''
             },
             {
-                name: 'Store',
-                link: ''
-            },
-            {
-                name: 'Contact',
+                name: 'Profile',
                 link: ''
             }
         ];

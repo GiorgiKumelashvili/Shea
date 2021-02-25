@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-custom py-1">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-custom py-1" style="z-index:10">
         <div class="container-fluid px-4">
             <a class="navbar-brand py-0">
                 <router-link
