@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router/router';
 import store from './store';
 import axios from 'axios';
+import { VueClipboard } from '@soerenmartius/vue3-clipboard';
 
 // router guard
 import '@/router/routeGuard';
@@ -15,6 +16,7 @@ axios.defaults.baseURL = 'http://localhost:8000';
 
 createApp(App)
     .use(store)
+    .use(VueClipboard)
     .use(router)
     .mount('#app');
 
