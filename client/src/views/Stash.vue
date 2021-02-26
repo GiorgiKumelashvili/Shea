@@ -308,13 +308,16 @@
                                 id="copy-item-share"
                             ></textarea>
                         </span>
-                        <!--------->
                         <span class="badge pointer rounded-pill bg-danger">
                             Pdf
                         </span>
-                        <span class="badge pointer rounded-pill bg-success">
+                        <span
+                            class="badge pointer rounded-pill bg-success"
+                            @click="downloadTextPlain()"
+                        >
                             Text document
                         </span>
+                        <!--------->
                     </div>
 
                     <div class="card my-3">
@@ -417,6 +420,7 @@ export default {
             copyValue,
             saveShareCardData,
             removeItemInShare,
+            downloadTextPlain,
             copyItemShareData
         } = shareCard;
 
@@ -450,6 +454,7 @@ export default {
             removeItemInShare,
             copyItemShareData,
             copyValue,
+            downloadTextPlain,
 
             // rest
             store,

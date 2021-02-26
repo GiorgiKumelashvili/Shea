@@ -42,11 +42,21 @@ const copyItemShareData = () => {
     window.getSelection().removeAllRanges();
 };
 
+const downloadTextPlain = () => {
+    const safeName = shareCardData.value.name.split(' ').join('_');
+    let a = document.createElement('a');
+    let blob = new Blob([copyValue.value], { type: 'text/plain' });
+    a.href = window.URL.createObjectURL(blob);
+    a.download = `${safeName}.txt`;
+    a.click();
+};
+
 export default {
     shareCardData,
     copyValue,
 
     saveShareCardData,
+    downloadTextPlain,
     removeItemInShare,
     copyItemShareData
 };
