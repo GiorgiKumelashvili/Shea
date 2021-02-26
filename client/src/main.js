@@ -26,18 +26,5 @@ createApp(App)
 
     TODO
 
-    (+) create item 
-    (+) show item
-    (+) delete item
-    (+) update item
-
-    (+) create card
-    (+) show card
-    (+) update card
-    (+) delete card 
-    
-    (+) open link
-    (+) after add neew item everything must refresh or at least card !!!!
-    (+) validate add new item (don't allow empty name and url)
-    (+) delete doesnt work after adding card and dragging any card
+    ( ) archive
 */
