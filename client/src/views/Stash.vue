@@ -299,10 +299,14 @@
                         <!--------->
                         <span
                             class="badge pointer rounded-pill bg-primary"
-                            @click.stop.prevent="copyTestingCode"
+                            @click.stop.prevent="copyItemShareData()"
                         >
                             Copy
-                            <input type="hidden" id="testing-code" :value="testingCode" />
+                            <textarea
+                                class="visually-hidden"
+                                :value="copyValue"
+                                id="copy-item-share"
+                            ></textarea>
                         </span>
                         <!--------->
                         <span class="badge pointer rounded-pill bg-danger">
@@ -368,6 +372,7 @@ import deleteItem from '@/components/Stash/deleteItem';
 // Cards
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
 import moveCardBackend from '@/components/Stash/moveCardBackend';
+import shareCard from '@/components/Stash/shareCard';
 
 // Components
 import MainCard from '@/components/Stash/MainCard.vue';
@@ -407,6 +412,13 @@ export default {
         // Card Mixins (Update)
         const { draggableKey } = wholeCardRefresh;
         const { changeMain } = moveCardBackend;
+        const {
+            shareCardData,
+            copyValue,
+            saveShareCardData,
+            removeItemInShare,
+            copyItemShareData
+        } = shareCard;
 
         // Add New Card
         const cardData = reactive({
@@ -431,40 +443,15 @@ export default {
         const showItemUrlInput = () => (ItemUrlInput.value = true);
         const closeItemUrlInput = () => (ItemUrlInput.value = false);
 
-        //! working
-        const shareCardData = ref(null);
-        const saveShareCardData = obj => {
-            shareCardData.value = JSON.parse(JSON.stringify(obj));
-            console.log(shareCardData);
-        };
-        const removeItemInShare = id => {
-            let index = shareCardData.value.child.findIndex((el, i) => {
-                if (el.id === id) return i;
-            });
-            index = index === -1 ? 0 : index;
-            shareCardData.value.child.splice(index, 1);
-        };
-
-        //!
-        const testingCode = ref(`lorem 12345`);
-        const copyTestingCode = () => {
-            let testingCodeToCopy = document.querySelector('#testing-code');
-            testingCodeToCopy.setAttribute('type', 'text'); // 不是 hidden 才能複製
-            testingCodeToCopy.select();
-
-            document.execCommand('copy');
-            testingCodeToCopy.setAttribute('type', 'hidden');
-            window.getSelection().removeAllRanges();
-        };
-
         return {
+            // share modal
             shareCardData,
             saveShareCardData,
             removeItemInShare,
-            //
-            copyTestingCode,
-            testingCode,
-            //
+            copyItemShareData,
+            copyValue,
+
+            // rest
             store,
             MainDataShow,
             Const,
