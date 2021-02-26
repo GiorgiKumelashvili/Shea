@@ -13,7 +13,7 @@
 
         <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="dropdownMenuOffset">
             <li v-for="linkObj in links" :key="linkObj.name">
-                <router-link tag="a" class="dropdown-item" :to="linkObj.link">
+                <router-link tag="a" class="dropdown-item" :to="{ name: linkObj.link }">
                     {{ linkObj.name }}
                 </router-link>
             </li>
@@ -44,7 +44,7 @@ export default {
         const links = [
             {
                 name: 'Archive',
-                link: ''
+                link: 'archive'
             },
             {
                 name: 'Settings',

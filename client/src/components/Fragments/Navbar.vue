@@ -46,6 +46,16 @@
                     <li class="nav-item">
                         <a class="nav-link py-0">
                             <router-link
+                                :to="{ name: 'archive' }"
+                                class="text-decoration-none text-light"
+                            >
+                                Archive
+                            </router-link>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-0">
+                            <router-link
                                 :to="{ name: 'about' }"
                                 class="text-decoration-none text-light"
                             >
