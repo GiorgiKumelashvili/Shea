@@ -106,15 +106,19 @@
 </template>
 
 <script>
-import deleteCard from '@/components/Stash/deleteCard';
-import updateCard from '@/components/Stash/updateCard';
-import moveItemBackend from '@/components/Stash/moveItemBackend';
+// Cards
+import deleteCard from '@/components/Stash/cards/deleteCard';
+import updateCard from '@/components/Stash/cards/updateCard';
 
-import draggable from 'vuedraggable';
+// Items
+import moveItemBackend from '@/components/Stash/items/moveItemBackend';
+
+// Helpers
 import Const from '@/libs/Const';
-
 import Func from '@/libs/Func';
 
+// Globals
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 import { ref, watch } from 'vue';
 

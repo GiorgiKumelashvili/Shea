@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import addCard from '@/components/Stash/addCard';
+import addCard from '@/components/Stash/cards/addCard.js';
 import Const from '@/libs/Const';
 
 export default {

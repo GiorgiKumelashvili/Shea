@@ -367,15 +367,15 @@
 
 <script>
 // Items
-import addItem from '@/components/Stash/addItem';
-import showItem from '@/components/Stash/showItem';
-import updateItem from '@/components/Stash/updateItem';
-import deleteItem from '@/components/Stash/deleteItem';
+import addItem from '@/components/Stash/items/addItem';
+import showItem from '@/components/Stash/items/showItem';
+import updateItem from '@/components/Stash/items/updateItem';
+import deleteItem from '@/components/Stash/items/deleteItem';
 
 // Cards
-import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
-import moveCardBackend from '@/components/Stash/moveCardBackend';
-import shareCard from '@/components/Stash/shareCard';
+import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh';
+import moveCardBackend from '@/components/Stash/cards/moveCardBackend';
+import shareCard from '@/components/Stash/cards/shareCard';
 
 // Components
 import MainCard from '@/components/Stash/MainCard.vue';

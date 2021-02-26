@@ -1,6 +1,6 @@
 import Back from '@/libs/Back';
 import store from '@/store/index';
-import wholeCardRefresh from './wholeCardRefresh';
+// import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh.js';
 
 const deleteCertainCard = id => {
     // Delete in Store
