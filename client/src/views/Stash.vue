@@ -15,6 +15,7 @@
                 :elementProp="element"
                 @openItemModalEvent="openItemModal($event)"
                 @addNewItemModalEvt="saveCardId($event)"
+                @openShareCardModalEvent="saveShareCardData($event)"
             />
         </template>
     </draggable>
@@ -110,15 +111,15 @@
     <!-- [Modal] Show Item -->
     <div
         class="modal fade force-wrap"
-        id="OpenCardModal"
+        id="OpenItemModal"
         tabindex="-1"
-        aria-labelledby="OpenCardModal"
+        aria-labelledby="OpenItemModal"
         aria-hidden="true"
     >
         <div class="modal-dialog">
             <div class="modal-content rounded-1">
                 <div class="modal-header">
-                    <h5 class="modal-title text-truncate" id="OpenCardModal">
+                    <h5 class="modal-title text-truncate" id="OpenItemModal">
                         {{ itemData?.card?.name }}
                     </h5>
                     <img
@@ -238,7 +239,7 @@
                                     <button
                                         class="btn btn-sm btn-secondaryborder-0 text-light ms-2 p-0 px-1 outline-none shadow-none"
                                         style="background:var(--bs-indigo)"
-                                        @click="goToLink(itemData.item.url)"
+                                        @click="Func.OpenLink(itemData.item.url)"
                                     >
                                         Redirect
                                     </button>
@@ -276,22 +277,108 @@
             </div>
         </div>
     </div>
+
+    <!-- [Modal] Show Share -->
+    <div
+        class="modal fade force-wrap"
+        id="OpenShareModal"
+        tabindex="-1"
+        aria-labelledby="OpenShareModal"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content rounded-1">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title text-truncate" id="OpenShareModal">
+                        Share Your List
+                    </h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="d-flex justify-content-end gap-1">
+                        <!--------->
+                        <span
+                            class="badge pointer rounded-pill bg-primary"
+                            @click.stop.prevent="copyTestingCode"
+                        >
+                            Copy
+                            <input type="hidden" id="testing-code" :value="testingCode" />
+                        </span>
+                        <!--------->
+                        <span class="badge pointer rounded-pill bg-danger">
+                            Pdf
+                        </span>
+                        <span class="badge pointer rounded-pill bg-success">
+                            Text document
+                        </span>
+                    </div>
+
+                    <div class="card my-3">
+                        <!-- Card name -->
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ shareCardData?.name }}
+                            </h5>
+                        </div>
+
+                        <!-- Item names and links -->
+                        <ul
+                            class="list-group list-group-flush"
+                            v-if="
+                                shareCardData && shareCardData.child && shareCardData.child.length
+                            "
+                        >
+                            <li
+                                class="list-group-item d-flex align-items-center justify-content-between"
+                                v-for="obj in shareCardData.child"
+                                :key="'shareable-item-' + obj.id"
+                            >
+                                <!-- Individual Item -->
+                                <div class="p-0 m-0 text-truncate">
+                                    {{ obj?.name }}
+
+                                    <a href="#" class="card-link ps-2" v-if="obj.url">
+                                        {{ obj.url }}
+                                    </a>
+                                </div>
+
+                                <!-- Remove item for share -->
+                                <button
+                                    type="button"
+                                    class="btn-close ms-4"
+                                    aria-label="Close"
+                                    @click="removeItemInShare(obj.id)"
+                                />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import Fab from '../components/Stash/Fab.vue';
+// Items
 import addItem from '@/components/Stash/addItem';
 import showItem from '@/components/Stash/showItem';
 import updateItem from '@/components/Stash/updateItem';
 import deleteItem from '@/components/Stash/deleteItem';
 
+// Cards
 import wholeCardRefresh from '@/components/Stash/wholeCardRefresh';
+import moveCardBackend from '@/components/Stash/moveCardBackend';
 
+// Components
 import MainCard from '@/components/Stash/MainCard.vue';
-import draggable from 'vuedraggable';
-import Const from '@/libs/Const';
-import Back from '@/libs/Back';
+import Fab from '@/components/Stash/Fab.vue';
 
+// Helpers
+import Const from '@/libs/Const';
+import Func from '@/libs/Func';
+
+// Globals
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 import { ref, computed, reactive } from 'vue';
 
@@ -304,42 +391,24 @@ export default {
     },
     setup() {
         const store = useStore();
+        store.dispatch('getMainData'); // Load Main Data !
 
-        //! Load Main Data
-        store.dispatch('getMainData');
-
-        // Main Data
         const MainDataShow = computed({
             get: () => store.getters.MainData,
             set: () => null
         });
 
-        // Open link
-        const goToLink = url => window.open(url);
+        // Item Mixins (Add, Show, Update, Delete)
+        const { newItemForm, addNewItemToCardInStore } = addItem;
+        const { itemData, openItemModal } = showItem;
+        const { focusItemInputName, updateItemName, focusItemInputUrl, updateItemUrl } = updateItem;
+        const { deleteCertainItem } = deleteItem;
 
-        // Mixins
-        const { draggableKey } = wholeCardRefresh; // Add new card
-        const { newItemForm, addNewItemToCardInStore } = addItem; // Add new item
-        const { itemData, openItemModal } = showItem; // Show item modal
-        const { focusItemInputName, updateItemName, focusItemInputUrl, updateItemUrl } = updateItem; // Update item modal
-        const { deleteCertainItem } = deleteItem; // delete Item
+        // Card Mixins (Update)
+        const { draggableKey } = wholeCardRefresh;
+        const { changeMain } = moveCardBackend;
 
-        // Update card index after single Drag
-        const changeMain = ({ oldIndex, newIndex }) => {
-            const card = store.getters.MainData[oldIndex];
-
-            // Update card index in Backend
-            Back.Service('/updateCardIndex', {
-                cardId: card.id,
-                oldIndex,
-                newIndex
-            });
-
-            // Update card index in Store
-            store.dispatch('updateCardPosition', { oldIndex, newIndex, card });
-        };
-
-        // For adding new card
+        // Add New Card
         const cardData = reactive({
             id: null,
             data: null
@@ -362,9 +431,41 @@ export default {
         const showItemUrlInput = () => (ItemUrlInput.value = true);
         const closeItemUrlInput = () => (ItemUrlInput.value = false);
 
+        //! working
+        const shareCardData = ref(null);
+        const saveShareCardData = obj => {
+            shareCardData.value = JSON.parse(JSON.stringify(obj));
+            console.log(shareCardData);
+        };
+        const removeItemInShare = id => {
+            let index = shareCardData.value.child.findIndex((el, i) => {
+                if (el.id === id) return i;
+            });
+            index = index === -1 ? 0 : index;
+            shareCardData.value.child.splice(index, 1);
+        };
+
+        //!
+        const testingCode = ref(`lorem 12345`);
+        const copyTestingCode = () => {
+            let testingCodeToCopy = document.querySelector('#testing-code');
+            testingCodeToCopy.setAttribute('type', 'text'); // 不是 hidden 才能複製
+            testingCodeToCopy.select();
+
+            document.execCommand('copy');
+            testingCodeToCopy.setAttribute('type', 'hidden');
+            window.getSelection().removeAllRanges();
+        };
+
         return {
+            shareCardData,
+            saveShareCardData,
+            removeItemInShare,
+            //
+            copyTestingCode,
+            testingCode,
+            //
             store,
-            goToLink,
             MainDataShow,
             Const,
             deleteCertainItem,
@@ -375,6 +476,7 @@ export default {
             cardData,
             newItemForm,
             saveCardId,
+            Func,
             addNewItemToCardInStore,
 
             //! new

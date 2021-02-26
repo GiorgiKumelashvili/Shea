@@ -2,16 +2,14 @@
     <div class="card pointer d-inline-block card-custom">
         <div class="card-body p-0 d-flex flex-column justify-content-between">
             <!-- Top half -->
-            <div
-                :class="Const.betweenClass"
-                class="px-2 pt-2"
-                @click="
-                    focusInput(final.id, CardNameInput);
-                    showCardNameInput();
-                "
-                v-if="!CardNameInput"
-            >
-                <h5 class="card-title m-0 flex-grow-1 text-truncate">
+            <div :class="Const.betweenClass" class="px-2 pt-2" v-if="!CardNameInput">
+                <h5
+                    class="card-title m-0 flex-grow-1 text-truncate"
+                    @click="
+                        focusInput(final.id, CardNameInput);
+                        showCardNameInput();
+                    "
+                >
                     {{ final.name }}
                 </h5>
 
@@ -31,6 +29,16 @@
                         <li @click="deleteCertainCard(final.id)">
                             <p class="dropdown-item m-0">
                                 Delete
+                            </p>
+                        </li>
+                        <li>
+                            <p
+                                class="dropdown-item m-0"
+                                @click="emitOpenShareCardModalEvent(final)"
+                                data-bs-toggle="modal"
+                                data-bs-target="#OpenShareModal"
+                            >
+                                Share
                             </p>
                         </li>
                     </ul>
@@ -69,7 +77,7 @@
                             class="m-0 force-wrap"
                             @click="emitOpenItemModalEvent({ Parent: final.id, Child: element.id })"
                             data-bs-toggle="modal"
-                            data-bs-target="#OpenCardModal"
+                            data-bs-target="#OpenItemModal"
                         >
                             {{ element.name }}
                         </p>
@@ -77,7 +85,7 @@
                         <img
                             :src="Const.svgs.Link"
                             class="p-1 rounded cust"
-                            @click="goToLink(element.url)"
+                            @click="Func.OpenLink(element.url)"
                         />
                     </div>
                 </template>
@@ -105,6 +113,8 @@ import moveItemBackend from '@/components/Stash/moveItemBackend';
 import draggable from 'vuedraggable';
 import Const from '@/libs/Const';
 
+import Func from '@/libs/Func';
+
 import { useStore } from 'vuex';
 import { ref, watch } from 'vue';
 
@@ -122,6 +132,7 @@ export default {
     setup(props, ctx) {
         const store = useStore();
         const final = ref(JSON.parse(JSON.stringify(props.elementProp)));
+
         const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
         const { deleteCertainCard } = deleteCard;
         const { updateCardName, focusInput } = updateCard;
@@ -134,9 +145,7 @@ export default {
         // emit click events
         const emitOpenItemModalEvent = obj => ctx.emit('openItemModalEvent', obj);
         const emitAddNewItemModal = id => ctx.emit('addNewItemModalEvt', { id, final });
-
-        // Go to link
-        const goToLink = url => window.open(url);
+        const emitOpenShareCardModalEvent = obj => ctx.emit('openShareCardModalEvent', obj);
 
         // Update card children by watching dragging in vuex
         watch(final.value.child, newVal => {
@@ -156,8 +165,9 @@ export default {
             Const,
             deleteCertainCard,
             emitOpenItemModalEvent,
+            emitOpenShareCardModalEvent,
             emitAddNewItemModal,
-            goToLink,
+            Func,
             CardNameInput,
             final,
             updateCardName
