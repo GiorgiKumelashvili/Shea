@@ -22,6 +22,10 @@ class CardController extends Controller {
             ->get());
     }
 
+//    public function getArchive() {
+//        return
+//    }
+
     public function updateCardIndex(Request $request): JsonResponse {
         $data = $request->validate([
             'oldIndex' => 'required',

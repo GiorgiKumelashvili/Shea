@@ -162,7 +162,7 @@
                             "
                             v-if="!ItemNameInput"
                         >
-                            {{ itemData.item.name[0].toUpperCase() + itemData.item.name.slice(1) }}
+                            {{ itemData.item.name }}
                         </h4>
 
                         <input
