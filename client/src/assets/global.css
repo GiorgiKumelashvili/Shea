@@ -46,6 +46,11 @@ body {
     word-wrap: break-word !important;
 }
 
+.force-wrap-2 {
+    white-space: normal !important;
+    word-break: break-all !important;
+}
+
 .center-vertically {
     display: flex;
     align-items: center;

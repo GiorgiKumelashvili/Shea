@@ -189,7 +189,7 @@
                         >
                             <h2 class="accordion-header" id="flush-headingOne">
                                 <button
-                                    class="accordion-button px-0 border-0 px-2 shadow-none"
+                                    class="accordion-button border-0 px-2 shadow-none"
                                     type="button"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne"
@@ -197,7 +197,7 @@
                                     aria-controls="flush-collapseOne"
                                 >
                                     Url
-                                    <img :src="Const.svgs.Link_Light" class="pointer ps-2" />
+                                    <!-- <img :src="Const.svgs.Link_Light" class="pointer ps-2" /> -->
                                 </button>
                             </h2>
                             <div
