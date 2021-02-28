@@ -8,7 +8,7 @@ import Func from '@/libs/Func';
 import Const from '@/libs/Const';
 
 // other
-import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh';
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 
 const cardName = ref(null);
 

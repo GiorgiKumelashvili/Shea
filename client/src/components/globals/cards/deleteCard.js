@@ -1,13 +1,12 @@
 import Back from '@/libs/Back';
 import store from '@/store/index';
-// import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh.js';
 
-const deleteCertainCard = id => {
+const deleteCertainCard = (id, location) => {
     // Delete in Store
     store.dispatch('deleteCardByIndex', id);
 
     // Delete in Backend
-    Back.Service('/card/stash/delete-card', { id });
+    Back.Service('/card/stash/delete-card', { id, location });
 };
 
 export default {

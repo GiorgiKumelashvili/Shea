@@ -1,5 +1,5 @@
 import Back from '@/libs/Back';
-import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh.js';
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh.js';
 
 /**
  * Update Item [Name]

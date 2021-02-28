@@ -20,7 +20,7 @@
                         class="dropdown-menu dropdown-menu-dark"
                         aria-labelledby="dropdownMenuOffset"
                     >
-                        <li @click="deleteCertainCard(final.id)">
+                        <li @click="deleteCertainCard(final.id, Const.locations.archive)">
                             <p class="dropdown-item m-0">
                                 Delete
                             </p>
@@ -93,7 +93,12 @@
                                 </button>
                                 <button
                                     class="btn btn-sm btn-danger border-0 text-light p-0 px-1 outline-none shadow-none"
-                                    @click="Func.OpenLink(el.url)"
+                                    @click="
+                                        deleteCertainItem({
+                                            Parent: final.id,
+                                            Child: el.id
+                                        })
+                                    "
                                 >
                                     Delete
                                 </button>
@@ -111,11 +116,13 @@
 
 <script>
 // Cards
-import deleteCard from '@/components/Stash/cards/deleteCard';
+import deleteCard from '@/components/globals/cards/deleteCard';
 import updateCard from '@/components/Stash/cards/updateCard';
 
 // Items
 import moveItemBackend from '@/components/Stash/items/moveItemBackend';
+
+import deleteItem from '@/components/archive/items/deleteItem';
 
 // Helpers
 import Const from '@/libs/Const';
@@ -160,7 +167,11 @@ export default {
             store.dispatch('updateItemPosition', { newChildren, index });
         });
 
+        const { deleteCertainItem } = deleteItem;
+
         return {
+            deleteCertainItem,
+            //
             moveItemInside,
             moveItemToNewCard,
             removeItemFromOldCard,

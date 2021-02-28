@@ -26,7 +26,7 @@
                         class="dropdown-menu dropdown-menu-dark"
                         aria-labelledby="dropdownMenuOffset"
                     >
-                        <li @click="deleteCertainCard(final.id)">
+                        <li @click="deleteCertainCard(final.id, Const.locations.stash)">
                             <p class="dropdown-item m-0">
                                 Delete
                             </p>
@@ -107,7 +107,8 @@
 
 <script>
 // Cards
-import deleteCard from '@/components/Stash/cards/deleteCard';
+import deleteCard from '@/components/globals/cards/deleteCard';
+
 import updateCard from '@/components/Stash/cards/updateCard';
 
 // Items

@@ -2,7 +2,7 @@ import { reactive } from 'vue';
 import store from '@/store/index';
 import Func from '@/libs/Func';
 import Back from '@/libs/Back';
-import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh.js';
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh.js';
 
 // State
 const state = reactive({

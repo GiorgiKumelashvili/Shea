@@ -373,7 +373,7 @@ import updateItem from '@/components/Stash/items/updateItem';
 import deleteItem from '@/components/Stash/items/deleteItem';
 
 // Cards
-import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh';
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import moveCardBackend from '@/components/Stash/cards/moveCardBackend';
 import shareCard from '@/components/Stash/cards/shareCard';
 

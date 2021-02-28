@@ -1,4 +1,4 @@
-import wholeCardRefresh from '@/components/Stash/cards/wholeCardRefresh';
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import Back from '@/libs/Back';
 import { createStore } from 'vuex';
 
