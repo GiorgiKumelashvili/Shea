@@ -30,7 +30,7 @@ const addNewCard = async () => {
     await Back.Service('/card/stash/add-card', obj);
 
     // Refresh whole data
-    wholeCardRefresh.forcedRefresh();
+    wholeCardRefresh.forcedRefreshStash();
 };
 
 export default { cardName, addNewCard };

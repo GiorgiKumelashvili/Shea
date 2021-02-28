@@ -37,7 +37,7 @@ const addNewItemToCardInStore = async obj => {
     });
 
     // Refresh whole data
-    wholeCardRefresh.forcedRefresh();
+    wholeCardRefresh.forcedRefreshStash();
 };
 
 export default {

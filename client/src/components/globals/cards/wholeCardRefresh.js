@@ -5,10 +5,10 @@ const draggableKey = ref('some random key');
 
 const refresh = () => (draggableKey.value = `new random key ${Math.random() * 10}`);
 
-const forcedRefresh = async () => {
-    await store.dispatch('getMainData');
+const forcedRefreshStashStash = async () => {
+    await store.dispatch('getMainData', 'stash');
 
     refresh();
 };
 
-export default { refresh, forcedRefresh, draggableKey };
+export default { refresh, forcedRefreshStash, draggableKey };

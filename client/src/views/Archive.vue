@@ -28,7 +28,7 @@ export default {
     },
     setup() {
         const store = useStore();
-        store.dispatch('getMainDataArchive'); // Load Main Data !
+        store.dispatch('getMainData', 'archive'); // Load Main Data !
 
         const MainDataShow = computed({
             get: () => store.getters.MainData,

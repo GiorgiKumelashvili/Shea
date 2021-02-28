@@ -13,7 +13,7 @@ const focusItemInputName = id => {
 
 const updateItemName = async (id, name) => {
     await Back.Service('/item/update', { id, name });
-    wholeCardRefresh.forcedRefresh();
+    wholeCardRefresh.forcedRefreshStash();
 };
 
 /**
@@ -28,7 +28,7 @@ const focusItemInputUrl = id => {
 
 const updateItemUrl = async (id, url) => {
     await Back.Service('/item/update', { id, url });
-    wholeCardRefresh.forcedRefresh();
+    wholeCardRefresh.forcedRefreshStash();
 };
 
 export default {

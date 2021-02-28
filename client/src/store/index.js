@@ -157,18 +157,10 @@ export default createStore({
             ctx.commit('setAuthenticated', { bool: payload });
         },
 
-        async getMainData(ctx) {
-            const data = await Back.Service('/card/stash');
+        async getMainData(ctx, payload) {
+            const name = `/card/${payload}`;
 
-            if (data.response && data.response.statusText) {
-                return;
-            }
-
-            ctx.commit('setMain', data.data);
-        },
-
-        async getMainDataArchive(ctx) {
-            const data = await Back.Service('/card/archive');
+            const data = await Back.Service(name);
 
             if (data.response && data.response.statusText) {
                 return;

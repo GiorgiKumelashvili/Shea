@@ -320,7 +320,7 @@ export default {
     },
     setup() {
         const store = useStore();
-        store.dispatch('getMainData'); // Load Main Data !
+        store.dispatch('getMainData', 'stash'); // Load Main Data !
 
         const MainDataShow = computed({
             get: () => store.getters.MainData,

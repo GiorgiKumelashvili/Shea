@@ -9,6 +9,7 @@ import '@/router/routeGuard';
 
 // Global css
 import '@/assets/global.css';
+import Back from './libs/Back';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
