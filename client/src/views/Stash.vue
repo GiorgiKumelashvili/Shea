@@ -375,7 +375,7 @@ import deleteItem from '@/components/Stash/items/deleteItem';
 // Cards
 import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import moveCardBackend from '@/components/Stash/cards/moveCardBackend';
-import shareCard from '@/components/Stash/cards/shareCard';
+import shareCard from '@/components/globals/cards/shareCard';
 
 // Components
 import MainCard from '@/components/Stash/MainCard.vue';
