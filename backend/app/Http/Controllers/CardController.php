@@ -3,31 +3,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Cards\Archive;
 use App\Http\Resources\CardResource;
 use App\Models\Card;
-
-use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
-class CardController extends Controller {
+// interfaces
+use App\Http\Controllers\Cards\Stash;
+
+class CardController extends Controller implements Stash, Archive {
     public const DB_NAME = "cards";
     public const STASH_LOCATION = 1;
     public const ARCHIVE_LOCATION = 2;
+
+    /**
+     * Stash methods
+     */
 
     public function Stash(): AnonymousResourceCollection {
         // Ordered by index in cards and items
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
             ->where('location', self::STASH_LOCATION)
-            ->orderBy('index')
-            ->get());
-    }
-
-    public function Archive(): AnonymousResourceCollection {
-        return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
-            ->where('location', self::ARCHIVE_LOCATION)
             ->orderBy('index')
             ->get());
     }
@@ -46,6 +45,7 @@ class CardController extends Controller {
         if ($oldIndex > $newIndex) {
             // Increment goes from [newIndex, oldIndex)
             DB::table('cards')
+                ->where('location', self::STASH_LOCATION)
                 ->where('index', '>=', $newIndex)
                 ->where('index', '<', $oldIndex)
                 ->increment('index');
@@ -55,6 +55,7 @@ class CardController extends Controller {
         else {
             // Decrement goes from (oldIndex, newIndex]
             DB::table('cards')
+                ->where('location', self::STASH_LOCATION)
                 ->where('index', '>', $oldIndex)
                 ->where('index', '<=', $newIndex)
                 ->decrement('index');
@@ -82,8 +83,16 @@ class CardController extends Controller {
 
     public function deleteCard(Request $request): JsonResponse {
         $request->validate([
-            'id' => 'required'
+            'id' => 'required',
+            'location' => 'required'
         ]);
+
+        $location = self::STASH_LOCATION;
+
+        if ($request->location == 2) {
+            $location = self::ARCHIVE_LOCATION;
+        }
+
 
         // First delete items
         DB::table('items')
@@ -101,6 +110,7 @@ class CardController extends Controller {
 
         // Third decrement indexes
         DB::table(self::DB_NAME)
+            ->where('location', $location)
             ->where('index', '>', $index)
             ->decrement('index');
 
@@ -120,7 +130,18 @@ class CardController extends Controller {
             ->update(['name' => $request->newName]);
 
         return response()->json([
-           'message' => 'Card name updated'
+            'message' => 'Card name updated'
         ]);
+    }
+
+    /**
+     * Archive methods
+     */
+
+    public function Archive(): AnonymousResourceCollection {
+        return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
+            ->where('location', self::ARCHIVE_LOCATION)
+            ->orderBy('index')
+            ->get());
     }
 }
