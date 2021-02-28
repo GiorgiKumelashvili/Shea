@@ -7,7 +7,7 @@ const deleteCertainCard = id => {
     store.dispatch('deleteCardByIndex', id);
 
     // Delete in Backend
-    Back.Service('/deleteCard', { id });
+    Back.Service('/card/stash/delete-card', { id });
 };
 
 export default {

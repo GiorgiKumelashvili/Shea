@@ -31,7 +31,7 @@ const addNewItemToCardInStore = async obj => {
     });
 
     // Add for Backend
-    await Back.Service('/addNewItem', {
+    await Back.Service('/item/add', {
         ...JSON.parse(JSON.stringify(state)),
         card_id: id
     });

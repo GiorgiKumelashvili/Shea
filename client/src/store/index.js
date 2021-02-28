@@ -158,7 +158,17 @@ export default createStore({
         },
 
         async getMainData(ctx) {
-            const data = await Back.Service('/getMainData');
+            const data = await Back.Service('/card/stash');
+
+            if (data.response && data.response.statusText) {
+                return;
+            }
+
+            ctx.commit('setMain', data.data);
+        },
+
+        async getMainDataArchive(ctx) {
+            const data = await Back.Service('/card/archive');
 
             if (data.response && data.response.statusText) {
                 return;

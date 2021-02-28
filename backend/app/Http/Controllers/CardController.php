@@ -14,17 +14,23 @@ use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller {
     public const DB_NAME = "cards";
+    public const STASH_LOCATION = 1;
+    public const ARCHIVE_LOCATION = 2;
 
-    public function getAll(): AnonymousResourceCollection {
+    public function Stash(): AnonymousResourceCollection {
         // Ordered by index in cards and items
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
+            ->where('location', self::STASH_LOCATION)
             ->orderBy('index')
             ->get());
     }
 
-//    public function getArchive() {
-//        return
-//    }
+    public function Archive(): AnonymousResourceCollection {
+        return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
+            ->where('location', self::ARCHIVE_LOCATION)
+            ->orderBy('index')
+            ->get());
+    }
 
     public function updateCardIndex(Request $request): JsonResponse {
         $data = $request->validate([

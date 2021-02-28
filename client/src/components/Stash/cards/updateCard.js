@@ -6,7 +6,7 @@ const updateCardName = (id, name) => {
     store.dispatch('updateCardName', { newCardName: name, id });
 
     // Update in Backend
-    Back.Service('/updateCardName', { id, newName: name });
+    Back.Service('/card/stash/update-card-name', { id, newName: name });
 };
 
 const focusInput = id => {
@@ -22,7 +22,7 @@ const changeMain = ({ oldIndex, newIndex }) => {
     const card = store.getters.MainData[oldIndex];
 
     // Update card index in Backend
-    Back.Service('/updateCardIndex', {
+    Back.Service('/card/stash/update-card-index', {
         cardId: card.id,
         oldIndex,
         newIndex

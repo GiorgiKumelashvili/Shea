@@ -25,7 +25,7 @@ const inside = ref(true);
 const moveItemToNewCard = (event, final) => {
     const { newIndex } = event;
 
-    Back.Service('/updateItemIndexOnDragAdd', {
+    Back.Service('/item/update-item-index-on-drag-add', {
         cardId: final.id,
         itemId: final.child[newIndex].id,
         newIndex
@@ -36,7 +36,7 @@ const removeItemFromOldCard = (event, final) => {
     inside.value = false;
     const { oldIndex } = event;
 
-    Back.Service('/updateItemIndexOnDragRemove', {
+    Back.Service('/item/update-item-index-on-drag-remove', {
         cardId: final.id,
         oldIndex
     });
@@ -50,7 +50,7 @@ const moveItemInside = (event, final) => {
 
     const { newIndex, oldIndex } = event;
 
-    Back.Service('/updateIndexOnInsideDragUpdate', {
+    Back.Service('/item/update-item-index-on-inside-drag', {
         cardId: final.id,
         itemId: final.child[newIndex].id,
         newIndex,

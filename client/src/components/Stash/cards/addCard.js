@@ -27,7 +27,7 @@ const addNewCard = async () => {
     store.dispatch('createNewCardAndAdd', obj);
 
     // Add on Backend
-    await Back.Service('/addCard', obj);
+    await Back.Service('/card/stash/add-card', obj);
 
     // Refresh whole data
     wholeCardRefresh.forcedRefresh();

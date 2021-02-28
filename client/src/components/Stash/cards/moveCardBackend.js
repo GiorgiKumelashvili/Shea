@@ -6,7 +6,7 @@ const changeMain = ({ oldIndex, newIndex }) => {
     const card = store.getters.MainData[oldIndex];
 
     // Update card index in Backend
-    Back.Service('/updateCardIndex', {
+    Back.Service('/card/stash/update-card-index', {
         cardId: card.id,
         oldIndex,
         newIndex

@@ -12,7 +12,7 @@ const focusItemInputName = id => {
 };
 
 const updateItemName = async (id, name) => {
-    await Back.Service('/updateItem', { id, name });
+    await Back.Service('/item/update', { id, name });
     wholeCardRefresh.forcedRefresh();
 };
 
@@ -27,7 +27,7 @@ const focusItemInputUrl = id => {
 };
 
 const updateItemUrl = async (id, url) => {
-    await Back.Service('/updateItem', { id, url });
+    await Back.Service('/item/update', { id, url });
     wholeCardRefresh.forcedRefresh();
 };
 

@@ -33,21 +33,21 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
 
-// Get all data from Card
-Route::post('/getMainData', [CardController::class, 'getAll']);
+// Card Stash Methods
+Route::post('/card/stash', [CardController::class, 'Stash']);
+Route::post('/card/stash/update-card-index', [CardController::class, 'updateCardIndex']);
+Route::post('/card/stash/add-card', [CardController::class, 'addNewCard']);
+Route::post('/card/stash/delete-card', [CardController::class, 'deleteCard']);
+Route::post('/card/stash/update-card-name', [CardController::class, 'updateCardName']);
 
-// Card methods
-Route::post('/updateCardIndex', [CardController::class, 'updateCardIndex']);
-Route::post('/addCard', [CardController::class, 'addNewCard']);
-Route::post('/deleteCard', [CardController::class, 'deleteCard']);
-Route::post('/updateCardName', [CardController::class, 'updateCardName']);
+// Card Archive Methods
+Route::post('/card/archive', [CardController::class, 'Archive']);
 
 // Item methods
-Route::post('/updateItemIndexOnDragAdd', [ItemController::class, 'updateItemIndexOnDragAdd']);
-Route::post('/updateItemIndexOnDragRemove', [ItemController::class, 'updateItemIndexOnDragRemove']);
-Route::post('/updateIndexOnInsideDragUpdate', [ItemController::class, 'updateIndexOnInsideDragUpdate']);
+Route::post('/item/add', [ItemController::class, 'addNewItem']);
+Route::post('/item/delete', [ItemController::class, 'deleteItem']);
+Route::post('/item/update', [ItemController::class, 'updateItem']);
 
-Route::post('/addNewItem', [ItemController::class, 'addNewItem']);
-Route::post('/deleteItem', [ItemController::class, 'deleteItem']);
-
-Route::post('/updateItem', [ItemController::class, 'updateItem']);
+Route::post('/item/update-item-index-on-drag-add', [ItemController::class, 'updateItemIndexOnDragAdd']);
+Route::post('/item/update-item-index-on-drag-remove', [ItemController::class, 'updateItemIndexOnDragRemove']);
+Route::post('/item/update-item-index-on-inside-drag', [ItemController::class, 'updateIndexOnInsideDragUpdate']);

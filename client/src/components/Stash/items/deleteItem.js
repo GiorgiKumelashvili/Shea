@@ -6,7 +6,7 @@ const deleteCertainItem = obj => {
     store.dispatch('deleteItem', obj);
 
     // Delete in Backend
-    Back.Service('/deleteItem', {
+    Back.Service('/item/delete', {
         id: obj.Child,
         card_id: obj.Parent
     });
