@@ -21,8 +21,11 @@
     </draggable>
 
     <!-- [Message] Error -->
-    <div class="card mx-auto mt-5 p-5" v-else style="width:30rem">
-        <h1 class="text-center">Error occured</h1>
+    <div
+        class="card mx-auto mt-5 p-3 p-md-5 rounded-0 d-flex justify-content-center w-50 force-wrap"
+        v-else
+    >
+        <h1 class="text-center">No Data Found</h1>
     </div>
 
     <!-- [Button] Add new Card -->

@@ -40,6 +40,9 @@ Route::post('/card/stash/add-card', [CardController::class, 'addNewCard']);
 Route::post('/card/stash/delete-card', [CardController::class, 'deleteCard']);
 Route::post('/card/stash/update-card-name', [CardController::class, 'updateCardName']);
 
+//!!!!!
+Route::post('/card/move-card-to-archive', [CardController::class, 'transferToArchive']);
+
 // Card Archive Methods
 Route::post('/card/archive', [CardController::class, 'Archive']);
 

@@ -41,6 +41,11 @@
                                 Share
                             </p>
                         </li>
+                        <li>
+                            <p class="dropdown-item m-0" @click="transferToArchive(final.id)">
+                                Transfer To Archive
+                            </p>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -110,7 +115,7 @@
 import deleteCard from '@/components/globals/cards/deleteCard';
 
 import updateCard from '@/components/Stash/cards/updateCard';
-
+import transfer from '@/components/globals/cards/transfer.js';
 // Items
 import moveItemBackend from '@/components/Stash/items/moveItemBackend';
 
@@ -141,6 +146,7 @@ export default {
         const { moveItemInside, moveItemToNewCard, removeItemFromOldCard } = moveItemBackend;
         const { deleteCertainCard } = deleteCard;
         const { updateCardName, focusInput } = updateCard;
+        const { transferToArchive } = transfer;
 
         // Update card name
         const CardNameInput = ref(false);
@@ -175,7 +181,8 @@ export default {
             Func,
             CardNameInput,
             final,
-            updateCardName
+            updateCardName,
+            transferToArchive
         };
     }
 };

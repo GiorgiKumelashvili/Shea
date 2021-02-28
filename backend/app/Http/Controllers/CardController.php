@@ -134,6 +134,19 @@ class CardController extends Controller implements Stash, Archive {
         ]);
     }
 
+
+    public function transferToArchive(Request $request): JsonResponse {
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        Card::where('id', $request->id)->update(['location' => self::ARCHIVE_LOCATION]);
+
+        return response()->json([
+            'message' => 'Card transfered to Archive'
+        ]);
+    }
+
     /**
      * Archive methods
      */
