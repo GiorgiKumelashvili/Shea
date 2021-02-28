@@ -11,4 +11,4 @@ const forcedRefreshStashStash = async () => {
     refresh();
 };
 
-export default { refresh, forcedRefreshStash, draggableKey };
+export default { refresh, forcedRefreshStashStash, draggableKey };
