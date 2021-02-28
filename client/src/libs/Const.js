@@ -13,7 +13,12 @@ export default {
         Link_Light: require('@/assets/svgs/bi-link-light.svg'),
         share: require('@/assets/svgs/bi-share.svg')
     },
+
     betweenClass: 'd-flex justify-content-between align-items-center',
+
+    names: {
+        token: 'accessToken'
+    },
 
     ItemDragOption: {
         animation: 500,

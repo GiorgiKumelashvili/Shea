@@ -3,6 +3,10 @@ import App from './App.vue';
 import router from './router/router';
 import store from './store';
 import axios from 'axios';
+
+//!
+import '@/router/interceptor';
+
 // router guard
 import '@/router/routeGuard';
 
