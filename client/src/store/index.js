@@ -1,11 +1,16 @@
 import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import Back from '@/libs/Back';
+import draggable from 'vuedraggable';
 import { createStore } from 'vuex';
 
 export default createStore({
     state: {
         authenticated: false,
         MainData: [],
+        User: {
+            name: null,
+            id: null
+        },
         MainDatax: [
             {
                 name: 'Big list 1',
@@ -75,6 +80,11 @@ export default createStore({
 
         setMain(state, payload) {
             state.MainData = payload;
+        },
+
+        setUserCredentials(state, { name, id }) {
+            state.User.name = name;
+            state.User.id = id;
         },
 
         /**
@@ -167,6 +177,11 @@ export default createStore({
             }
 
             ctx.commit('setMain', data.data);
+        },
+
+        async getUserCredential(ctx) {
+            const { data } = await Back.Service('/user');
+            ctx.commit('setUserCredentials', data);
         },
 
         /**

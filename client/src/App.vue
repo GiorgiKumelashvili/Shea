@@ -18,6 +18,9 @@ export default {
         const store = useStore();
         const isAuthenticated = ref(store.getters.isAuthenticated);
 
+        // Get user info
+        store.dispatch('getUserCredential');
+
         //! Set in store
         isAuthenticated.value = localStorage.getItem('isAuthenticated') ?? false;
         store.commit('setAuthenticated', isAuthenticated.value);
