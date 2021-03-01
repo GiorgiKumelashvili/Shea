@@ -1,5 +1,9 @@
 <template>
-    <div class="container border mt-5 px-5 py-2 bg-light" style="max-width:500px">
+    <div
+        class="container border mt-5 px-5 py-2 bg-light"
+        style="max-width:500px"
+        @keyup.enter="login()"
+    >
         <p class="text-center display-5">Login</p>
 
         <div class="form-floating mb-3">
