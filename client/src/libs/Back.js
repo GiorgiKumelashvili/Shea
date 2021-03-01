@@ -1,3 +1,5 @@
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
+import store from '@/store/index';
 import axios from 'axios';
 import Const from './Const';
 
@@ -15,13 +17,18 @@ back.interceptors.request.use(config => {
 class Back {
     /**
      * Connnects To Backend
+     * Send access token and user id on every call
      *
      * @param {String} url - url for backend
      * @param {Object} obj - object for sending to backend via json
      */
-    static Service(url, obj = null) {
+    static async Service(url, obj = null) {
+        if (!store.getters.UserId) {
+            await store.dispatch('getUserCredential');
+        }
+
         return back
-            .post(url, obj)
+            .post(url, { ...obj, user_id: store.getters.UserId })
             .then(res => res.data)
             .catch(err => err);
     }

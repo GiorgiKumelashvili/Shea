@@ -12,8 +12,9 @@ class CardFactory extends Factory {
         return [
             'name' => $this->faker->name,
             'color' => $this->faker->hexColor,
-            'location' => $this->faker->randomElement([1,2]),
-            'index' => 1
+            'location' => $this->faker->randomElement([1, 2]),
+            'index' => 1,
+            'user_id' => $this->faker->randomElement([1, 2]),
         ];
     }
 }

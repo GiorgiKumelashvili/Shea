@@ -22,10 +22,11 @@ body {
     position: relative;
 
     height: 100%;
-    background-image: var(--image);
+    background-image: linear-gradient(rgb(88, 27, 255), rgb(59, 0, 221));
+    /* background-image: var(--image);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: cover; */
 }
 
 /* Globals */

@@ -1,6 +1,7 @@
 import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import Back from '@/libs/Back';
-import draggable from 'vuedraggable';
+import Const from '@/libs/Const';
+import axios from 'axios';
 import { createStore } from 'vuex';
 
 export default createStore({
@@ -180,8 +181,18 @@ export default createStore({
         },
 
         async getUserCredential(ctx) {
-            const { data } = await Back.Service('/user');
-            ctx.commit('setUserCredentials', data);
+            const User = axios.create({ baseURL: 'http://localhost:8000/api/user' });
+
+            User.interceptors.request.use(config => {
+                const accessToken = localStorage.getItem(Const.names.token);
+                config.headers.Authorization = `Bearer ${accessToken}`;
+
+                return config;
+            });
+
+            return User.post()
+                .then(res => ctx.commit('setUserCredentials', res.data.data))
+                .catch(err => err);
         },
 
         /**
@@ -239,6 +250,7 @@ export default createStore({
     getters: {
         isAuthenticated: state => state.authenticated,
         MainData: state => state.MainData,
+        UserId: state => state.User.id,
         findCardIndexById: state => id => {
             let index = state.MainData.findIndex((el, i) => {
                 if (el.id === id) return i;

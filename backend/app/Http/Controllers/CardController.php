@@ -19,13 +19,18 @@ class CardController extends Controller implements Stash, Archive {
     public const STASH_LOCATION = 1;
     public const ARCHIVE_LOCATION = 2;
 
-    /**
-     * Stash methods
+    /*
+     * Stash Methods
      */
 
-    public function Stash(): AnonymousResourceCollection {
+    public function Stash(Request $request): AnonymousResourceCollection {
+        $request->validate([
+            'user_id' => 'required'
+        ]);
+
         // Ordered by index in cards and items
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
+            ->where('user_id', $request->user_id)
             ->where('location', self::STASH_LOCATION)
             ->orderBy('index')
             ->get());
@@ -35,7 +40,8 @@ class CardController extends Controller implements Stash, Archive {
         $data = $request->validate([
             'oldIndex' => 'required',
             'newIndex' => 'required',
-            'cardId' => 'required'
+            'cardId' => 'required',
+            'user_id' => 'required'
         ]);
 
         $cardId = $data['cardId'];
@@ -45,6 +51,7 @@ class CardController extends Controller implements Stash, Archive {
         if ($oldIndex > $newIndex) {
             // Increment goes from [newIndex, oldIndex)
             DB::table('cards')
+                ->where('user_id', $request->user_id)
                 ->where('location', self::STASH_LOCATION)
                 ->where('index', '>=', $newIndex)
                 ->where('index', '<', $oldIndex)
@@ -55,6 +62,7 @@ class CardController extends Controller implements Stash, Archive {
         else {
             // Decrement goes from (oldIndex, newIndex]
             DB::table('cards')
+                ->where('user_id', $request->user_id)
                 ->where('location', self::STASH_LOCATION)
                 ->where('index', '>', $oldIndex)
                 ->where('index', '<=', $newIndex)
@@ -72,6 +80,7 @@ class CardController extends Controller implements Stash, Archive {
             'name' => 'required',
             'location' => 'required',
             'index' => 'required',
+            'user_id' => 'required'
         ]);
 
         Card::create($data);
@@ -84,7 +93,8 @@ class CardController extends Controller implements Stash, Archive {
     public function deleteCard(Request $request): JsonResponse {
         $request->validate([
             'id' => 'required',
-            'location' => 'required'
+            'location' => 'required',
+            'user_id' => 'required'
         ]);
 
         $location = self::STASH_LOCATION;
@@ -110,6 +120,7 @@ class CardController extends Controller implements Stash, Archive {
 
         // Third decrement indexes
         DB::table(self::DB_NAME)
+            ->where('user_id', $request->user_id)
             ->where('location', $location)
             ->where('index', '>', $index)
             ->decrement('index');
@@ -137,8 +148,17 @@ class CardController extends Controller implements Stash, Archive {
 
     public function transferToArchive(Request $request): JsonResponse {
         $request->validate([
-            'id' => 'required'
+            'id' => 'required',
+            'user_id' => 'required',
+            'index' => 'required'
         ]);
+
+        // Third decrement indexes
+        DB::table(self::DB_NAME)
+            ->where('user_id', $request->user_id)
+            ->where('location', self::STASH_LOCATION)
+            ->where('index', '>', $request->index)
+            ->decrement('index');
 
         Card::where('id', $request->id)->update(['location' => self::ARCHIVE_LOCATION]);
 
@@ -147,12 +167,17 @@ class CardController extends Controller implements Stash, Archive {
         ]);
     }
 
-    /**
+    /*
      * Archive methods
      */
 
-    public function Archive(): AnonymousResourceCollection {
+    public function Archive(Request $request): AnonymousResourceCollection {
+        $request->validate([
+            'user_id' => 'required'
+        ]);
+
         return CardResource::collection(Card::with(['items' => fn($q) => $q->orderBy('index')])
+            ->where('user_id', $request->user_id)
             ->where('location', self::ARCHIVE_LOCATION)
             ->orderBy('index')
             ->get());

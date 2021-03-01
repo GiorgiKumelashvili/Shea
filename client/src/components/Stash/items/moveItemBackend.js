@@ -1,3 +1,4 @@
+import wholeCardRefresh from '@/components/globals/cards/wholeCardRefresh';
 import Back from '@/libs/Back';
 import { ref } from 'vue';
 
@@ -22,27 +23,31 @@ import { ref } from 'vue';
 
 const inside = ref(true);
 
-const moveItemToNewCard = (event, final) => {
+const moveItemToNewCard = async (event, final) => {
     const { newIndex } = event;
 
-    Back.Service('/item/update-item-index-on-drag-add', {
+    await Back.Service('/item/update-item-index-on-drag-add', {
         cardId: final.id,
         itemId: final.child[newIndex].id,
         newIndex
     });
+
+    wholeCardRefresh.forcedRefreshStash();
 };
 
-const removeItemFromOldCard = (event, final) => {
+const removeItemFromOldCard = async (event, final) => {
     inside.value = false;
     const { oldIndex } = event;
 
-    Back.Service('/item/update-item-index-on-drag-remove', {
+    await Back.Service('/item/update-item-index-on-drag-remove', {
         cardId: final.id,
         oldIndex
     });
+
+    wholeCardRefresh.forcedRefreshStash();
 };
 
-const moveItemInside = (event, final) => {
+const moveItemInside = async (event, final) => {
     if (!inside.value) {
         inside.value = true;
         return;
@@ -50,12 +55,14 @@ const moveItemInside = (event, final) => {
 
     const { newIndex, oldIndex } = event;
 
-    Back.Service('/item/update-item-index-on-inside-drag', {
+    await Back.Service('/item/update-item-index-on-inside-drag', {
         cardId: final.id,
         itemId: final.child[newIndex].id,
         newIndex,
         oldIndex
     });
+
+    wholeCardRefresh.forcedRefreshStash();
 };
 
 export default {

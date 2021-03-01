@@ -42,7 +42,10 @@
                             </p>
                         </li>
                         <li>
-                            <p class="dropdown-item m-0" @click="transferToArchive(final.id)">
+                            <p
+                                class="dropdown-item m-0"
+                                @click="transferToArchive(final.id, final.index)"
+                            >
                                 Transfer To Archive
                             </p>
                         </li>

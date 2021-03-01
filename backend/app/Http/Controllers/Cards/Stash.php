@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface Stash {
-    public function Stash(): AnonymousResourceCollection;
+    public function Stash(Request $request): AnonymousResourceCollection;
     public function updateCardIndex(Request $request): JsonResponse;
     public function addNewCard(Request $request): JsonResponse;
     public function deleteCard(Request $request): JsonResponse;
