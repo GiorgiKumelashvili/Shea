@@ -1,5 +1,5 @@
 <template>
-    <div class="container border mt-5 px-5 py-2" style="max-width:500px">
+    <div class="container border mt-5 px-5 py-2 bg-light" style="max-width:500px">
         <p class="text-center display-5">Login</p>
 
         <div class="form-floating mb-3">
@@ -16,7 +16,7 @@
         <div class="form-floating">
             <input
                 v-model="form.credentials.password"
-                type="text"
+                type="password"
                 class="form-control"
                 id="floatingPassword"
                 placeholder="Password"
