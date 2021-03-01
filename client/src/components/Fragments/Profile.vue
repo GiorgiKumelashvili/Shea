@@ -45,15 +45,15 @@ export default {
             {
                 name: 'Archive',
                 link: 'archive'
-            },
-            {
-                name: 'Settings',
-                link: ''
-            },
-            {
-                name: 'Profile',
-                link: ''
             }
+            // {
+            //     name: 'Settings',
+            //     link: ''
+            // },
+            // {
+            //     name: 'Profile',
+            //     link: ''
+            // }
         ];
 
         return { links };

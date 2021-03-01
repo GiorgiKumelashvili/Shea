@@ -43,7 +43,7 @@
                             </router-link>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link py-0">
                             <router-link
                                 :to="{ name: 'archive' }"
@@ -52,7 +52,7 @@
                                 Archive
                             </router-link>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link py-0">
                             <router-link

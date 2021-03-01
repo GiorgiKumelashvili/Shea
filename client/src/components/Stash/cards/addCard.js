@@ -14,13 +14,13 @@ const cardName = ref(null);
 
 const addNewCard = async () => {
     const arr = store.getters.MainData.map(obj => obj.index);
-
-    let obj = {
+    const index = arr.length ? Math.max(...arr) + 1 : 0;
+    const obj = {
         name: cardName.value,
         id: Func.RandomNumber(),
         child: [],
         location: Const.locations.stash,
-        index: Math.max(...arr) + 1
+        index
     };
 
     // Add on Store
